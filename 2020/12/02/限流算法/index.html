@@ -85,14 +85,14 @@
 <meta property="og:url" content="https://longqing9.gitee.io/blog/2020/12/02/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="龍">
 <meta property="og:description" content="1、计数器&#x2F;时间窗口法这种限流算法最简单，也是最容易实现的，通过在单位时间内设置最大访问数就可达到限流的目的。例如：某系统能够承受的QPS为60，在单位时间一秒内限制接口只能被访问60次即可；  缺陷：假如在时间窗的钱1%的时间内流量就达到顶峰，那么在剩余99%的时间系统即便能够继续提供服务，还是会被限流算法阻断，这种缺陷也被称为“突刺效应”。限流策略过于粗略，无法应对两个时间窗口临界时间内的突发">
-<meta property="og:image" content="https://longqing9.gitee.io/images/2020010701.png">
+<meta property="og:image" content="https://longqing9.gitee.io/blog/images/2020010701.png">
 <meta property="article:published_time" content="2020-12-02T07:30:16.000Z">
-<meta property="article:modified_time" content="2021-01-09T13:57:47.401Z">
+<meta property="article:modified_time" content="2021-01-09T14:03:54.739Z">
 <meta property="article:author" content="Liu Hualong">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="限流">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://longqing9.gitee.io/images/2020010701.png">
+<meta name="twitter:image" content="https://longqing9.gitee.io/blog/images/2020010701.png">
 
 
 
@@ -376,7 +376,7 @@
 <h4 id="4、令牌桶算法"><a href="#4、令牌桶算法" class="headerlink" title="4、令牌桶算法"></a>4、令牌桶算法</h4><p>从某种意义上讲，令牌桶算法算是漏铜算法的一种改进，桶算法能够限制请求调用的速率，而令牌桶算法能够在限制调用的平均速率的同时还允许一定程度的突发调用。</p>
 <p>在令牌桶算法中，存在一个桶，用来存放固定数量的令牌。算法中存在一种机制，以一定速率向桶中方令牌。每次请求需要先获取令牌，只有拿到令牌，才有机会继续执行，否则选择等待可用的令牌，获取直接拒绝。</p>
 <p>放令牌的动作是持续不断的进行，如果桶中令牌数达到上限，就丢弃令牌，所以存在这种情况，桶中一直有大量的可用令牌，这是进来的请求就可以直接拿到令牌执行。例如：设置QPS为100，那么限流器初始化完成一秒后，桶中就已经有100个令牌了，这是服务还没完全启动，等启动完成对外提供服务时，该限流器就可以抵挡瞬时的100个请求。所以只有桶中没有令牌时，请求才会进行等待，最后相当于以一定的速率执行。</p>
-<p><img src="/images/2020010701.png" alt="2020010701"></p>
+<p><img src="/blog/images/2020010701.png" alt="2020010701"></p>
 <p>相对另外三种限流算法，令牌桶算法在流量到达上限时不是直接丢弃请求，而是通过令牌生成的速率实现限流的。</p>
 
       

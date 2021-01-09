@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Map," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="HashMap的数据结构为数组和链表组合构成的； 1.1  Map存储过程​    在Map中是采用key-value键值对的形式进行存储数据的，当put数据时，会首先对key进行hash计算，获取key在数组中的索引值，根据索引值存储到对应的数组元素中，如果多个不同的key经过hash计算之后获取到的索引值相同，会以链表的形式存储到对应的数组元素的后面。再Java8之前，链表在插入数据时在Jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map集合">
+<meta property="og:url" content="http://yoursite.com/2019/06/12/Map%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="龍">
+<meta property="og:description" content="HashMap的数据结构为数组和链表组合构成的； 1.1  Map存储过程​    在Map中是采用key-value键值对的形式进行存储数据的，当put数据时，会首先对key进行hash计算，获取key在数组中的索引值，根据索引值存储到对应的数组元素中，如果多个不同的key经过hash计算之后获取到的索引值相同，会以链表的形式存储到对应的数组元素的后面。再Java8之前，链表在插入数据时在Jav">
+<meta property="article:published_time" content="2019-06-12T05:24:02.000Z">
+<meta property="article:modified_time" content="2021-01-09T10:20:47.298Z">
+<meta property="article:author" content="Liu Hualong">
+<meta property="article:tag" content="Map">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/12/Map集合/"/>
+
+
+
+
+
+  <title>Map集合 | 龍</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">龍</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">书山有路勤为径，学海无涯苦作舟。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/12/Map%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Liu Hualong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="龍">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Map集合</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-12T13:24:02+08:00">
+                2019-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>HashMap的数据结构为数组和链表组合构成的；</p>
+<h4 id="1-1-Map存储过程"><a href="#1-1-Map存储过程" class="headerlink" title="1.1  Map存储过程"></a>1.1  Map存储过程</h4><p>​    在Map中是采用key-value键值对的形式进行存储数据的，当put数据时，会首先对key进行hash计算，获取key在数组中的索引值，根据索引值存储到对应的数组元素中，如果多个不同的key经过hash计算之后获取到的索引值相同，会以链表的形式存储到对应的数组元素的后面。再Java8之前，链表在插入数据时在Java8之前采用的是头插发，Java8级以后采用的是尾插法。</p>
+<h4 id="1-2-Map扩容机制"><a href="#1-2-Map扩容机制" class="headerlink" title="1.2 Map扩容机制"></a>1.2 Map扩容机制</h4><p>​     1.Map的默认存储的长度为16，默认的负载因子为0.75；Map的默认的长度使用16的原因是，在Map内进行计算key的索引值时是采用按位与记性计算，这种计算的方式比数值计算的效率要高出很多。同时在进行计算式采用长度-1和hashCode值进行计算，这样可以实现数据的均匀分布。</p>
+<p>​    2.当Map中存储的数量超出（当前长度<em>负载因子）就会进行扩容。每次扩容的大小是当前容量的2倍。在创建Map集合时可以设置负载因子和初始容量的大小；当Map进行扩容时首先创建一个Entry空数组，大小是之前的2倍，然后进行遍历之前的数组，将原来的数组中存在的值进行一次新的Hash计算，重新将存储在新的数组中，如果存在相同索引值，尾插法存储在链表中。在java8及以后的版本，数组的链表存在*</em>平衡树**的部分，这样大大减低了查询的时间复杂度。</p>
+<p>​     3.在并发情况下，Map进行扩容时使用头插法，可能会出现循环链表，在查询时出现死循环。使用尾插法在同样的前提下就不会出现，原因是扩容转移后前后链表顺序不变，保持之前节点的引用关系。</p>
+<h4 id="1-3-Map常用方法"><a href="#1-3-Map常用方法" class="headerlink" title="1.3 Map常用方法"></a>1.3 Map常用方法</h4><ul>
+<li><p><code>int size();</code>：返回Map的key-value对的长度。</p>
+</li>
+<li><p><code>boolean isEmpty();</code>：判断该Map是否为空。</p>
+</li>
+<li><p><code>boolean containsKey(Object key);</code>：判断该Map中是否包含指定的key。</p>
+</li>
+<li><p><code>boolean containsValue(Object value);</code>：判断该Map是否包含一个或多个value。</p>
+</li>
+<li><p><code>V get(Object key);</code>：获取某个key所对应的value；若不包含该key，则返回null。</p>
+</li>
+<li><p><code>V put(K key, V value);</code>：向Map添加key-value对，当Map中有一个与该key相等的key-value对，则新的会去覆盖旧的。</p>
+</li>
+<li><p><code>V remove(Object key);</code>：移除指定的key所对应的key-value对，若成功删除，则返回移除的value值。</p>
+</li>
+<li><p><code>void putAll(Map m);</code>：将指定的Map中的key-value对全部复制到该Map中。</p>
+</li>
+<li><p><code>void clear();</code>：清除Map中的所有key-value对。</p>
+</li>
+<li><p><code>Set keySet();</code>：获取该Map中所有key组成的Set集合。</p>
+</li>
+<li><p><code>Collection values();</code>：获取该Map中所有value组成的Collection。</p>
+</li>
+<li><p><code>Set&gt; entrySet();</code>：返回该Map中Entry类的Set集合。</p>
+</li>
+<li><p><code>boolean remove(Object key, Object value)</code>：删除指定的key-value对，若删除成功，则返回true；否则，返回false。</p>
+</li>
+</ul>
+<h4 id="1-4-Map其他子类介绍"><a href="#1-4-Map其他子类介绍" class="headerlink" title="1.4 Map其他子类介绍"></a>1.4 Map其他子类介绍</h4><h5 id="1-4-1-HashTable"><a href="#1-4-1-HashTable" class="headerlink" title="1.4.1 HashTable"></a>1.4.1 HashTable</h5><p>​    HashTable和HashMap都属于Map的子类，区别在于：</p>
+<ul>
+<li>HashTable是线程安全的，在其方法中使用了synchronized关键字进行修饰；</li>
+<li>在HashTable中不允许key、Vale为null值，在HashMap允许为null；</li>
+<li>由于在HashTable加锁，所以性能较低HashMap的性能高；</li>
+</ul>
+<h5 id="1-4-2-TreeMap"><a href="#1-4-2-TreeMap" class="headerlink" title="1.4.2 TreeMap"></a>1.4.2 TreeMap</h5><p>​    TreeMap是SortedMap接口的实现类，其底层使用的数据结构为<strong>红黑树</strong>，key-value作为一个红黑树的节点，在进行数据存储是会进行根据key排序，排序的规则为自然排序和自定义排序。而HashMap和HashTable是无序的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Map/" rel="tag"># Map</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/12/%E5%92%8Cequals%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="prev" title="==和equals的区别">
+                ==和equals的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Liu Hualong" />
+            
+              <p class="site-author-name" itemprop="name">Liu Hualong</p>
+              <p class="site-description motion-element" itemprop="description">暂无</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/longqing9" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:16113044852@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-Map存储过程"><span class="nav-number">1.</span> <span class="nav-text">1.1  Map存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Map扩容机制"><span class="nav-number">2.</span> <span class="nav-text">1.2 Map扩容机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-Map常用方法"><span class="nav-number">3.</span> <span class="nav-text">1.3 Map常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-Map其他子类介绍"><span class="nav-number">4.</span> <span class="nav-text">1.4 Map其他子类介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-1-HashTable"><span class="nav-number">4.1.</span> <span class="nav-text">1.4.1 HashTable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-2-TreeMap"><span class="nav-number">4.2.</span> <span class="nav-text">1.4.2 TreeMap</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Liu Hualong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

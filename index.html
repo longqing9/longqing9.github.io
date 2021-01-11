@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
-                    <span itemprop="name">java基础</span>
+                  <a href="/blog/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -355,9 +355,7 @@
         
           
           介绍：线程是cpu调度最小单位(进程是cpu资源分配的最小单位)，线程是建立在进程的基础上的一次程序运行单位，各个线程既可以共享进程资源
-继承Thread类继承Thread类，重写run方法
-实现Runnable接口实现Runnable接口，重写run方法
-通过Callable和Future创建线程
+1、继承Thread类Thread类本质上是实现了Runnable接口的一个实例，代表一个线程的实例。启动线程的唯一方法就是通过Thread类的start()实例
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1490,7 +1488,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/blog/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

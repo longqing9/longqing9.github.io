@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="线程池," />
+  <meta name="keywords" content="java," />
 
 
 
@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="1、常见的5种线程池的创建线程池的创建使用Executors对象创建线程池 1.newCachedThreadPool 工作线程的创建线程的数量为：Interger. MAX_VALUE；  工作线程长时间空闲（默认1分钟）将会被销毁，如果有新的任务将重新创建线程；  需要注意线程池中工作线程的数量，数量过大会导致系统瘫痪； 2.newFixedThreadPool Executors.newFi">
+<meta name="description" content="运行时数据区域： 根据JVM规范，JVM内存共划分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五部分。  内存区域图如下所示：   1、程序计数器（线程私有）：程序计数器是最小的一块内存区域，它的作用是当前线程所执行的字节码的行号指示器，在虚拟机的模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、异常处理、线程恢复等基础功能都需要依赖计数器完成。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程池">
-<meta property="og:url" content="https://longqing9.gitee.io/blog/2020/06/10/%E7%BA%BF%E7%A8%8B%E6%B1%A0/index.html">
+<meta property="og:title" content="jvm的内存区域模型">
+<meta property="og:url" content="https://longqing9.gitee.io/blog/2021/01/04/%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="1、常见的5种线程池的创建线程池的创建使用Executors对象创建线程池 1.newCachedThreadPool 工作线程的创建线程的数量为：Interger. MAX_VALUE；  工作线程长时间空闲（默认1分钟）将会被销毁，如果有新的任务将重新创建线程；  需要注意线程池中工作线程的数量，数量过大会导致系统瘫痪； 2.newFixedThreadPool Executors.newFi">
-<meta property="article:published_time" content="2020-06-10T08:24:54.000Z">
-<meta property="article:modified_time" content="2021-01-09T10:20:47.320Z">
+<meta property="og:description" content="运行时数据区域： 根据JVM规范，JVM内存共划分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五部分。  内存区域图如下所示：   1、程序计数器（线程私有）：程序计数器是最小的一块内存区域，它的作用是当前线程所执行的字节码的行号指示器，在虚拟机的模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、异常处理、线程恢复等基础功能都需要依赖计数器完成。">
+<meta property="og:image" content="https://longqing9.gitee.io/blog/images/2021011101.jpg">
+<meta property="article:published_time" content="2021-01-04T07:30:16.000Z">
+<meta property="article:modified_time" content="2021-01-11T13:26:25.383Z">
 <meta property="article:author" content="Liu Hualong">
-<meta property="article:tag" content="线程池">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://longqing9.gitee.io/blog/images/2021011101.jpg">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://longqing9.gitee.io/blog/2020/06/10/线程池/"/>
+  <link rel="canonical" href="https://longqing9.gitee.io/blog/2021/01/04/内存区域模型/"/>
 
 
 
 
 
-  <title>线程池 | 龍</title>
+  <title>jvm的内存区域模型 | 龍</title>
   
 
 
@@ -262,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://longqing9.gitee.io/blog/blog/2020/06/10/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+    <link itemprop="mainEntityOfPage" href="https://longqing9.gitee.io/blog/blog/2021/01/04/%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liu Hualong">
@@ -279,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线程池</h1>
+          <h1 class="post-title" itemprop="name headline">jvm的内存区域模型</h1>
         
 
         <div class="post-meta">
@@ -291,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-10T16:24:54+08:00">
-                2020-06-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-04T15:30:16+08:00">
+                2021-01-04
               </time>
             
 
@@ -314,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/blog/categories/java%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">java虚拟机</span>
                   </a>
                 </span>
 
@@ -351,26 +353,23 @@
       
 
       
-        <h3 id="1、常见的5种线程池的创建"><a href="#1、常见的5种线程池的创建" class="headerlink" title="1、常见的5种线程池的创建"></a>1、常见的5种线程池的创建</h3><p>线程池的创建使用Executors对象创建线程池</p>
-<h4 id="1-newCachedThreadPool"><a href="#1-newCachedThreadPool" class="headerlink" title="1.newCachedThreadPool"></a>1.newCachedThreadPool</h4><ul>
-<li><p>工作线程的创建线程的数量为：Interger. MAX_VALUE；</p>
-</li>
-<li><p>工作线程长时间空闲（默认1分钟）将会被销毁，如果有新的任务将重新创建线程；</p>
-</li>
-<li><p>需要注意线程池中工作线程的数量，数量过大会导致系统瘫痪；</p>
-<h4 id="2-newFixedThreadPool"><a href="#2-newFixedThreadPool" class="headerlink" title="2.newFixedThreadPool"></a>2.newFixedThreadPool</h4></li>
-<li><p>Executors.newFixedThreadPool(n):指定线程池初始线程个数。</p>
-</li>
-<li><p>当任务数超出线程池中的线程数，任务将会被放进任务队列中；</p>
-</li>
-<li><p>当线程空闲时线程不会被销毁，会一直存在于线程池中；</p>
-<h4 id="3-newSingleThreadExecutor"><a href="#3-newSingleThreadExecutor" class="headerlink" title="3.newSingleThreadExecutor"></a>3.newSingleThreadExecutor</h4></li>
-<li><p>Executors.newSingleThreadExecutor();指定线程池只有一个固定的线程;</p>
-</li>
-<li><p>可以保证所有任务按照指定顺序(FIFO, LIFO,优先级)执行；</p>
-<h4 id="4-newScheduleThreadPool"><a href="#4-newScheduleThreadPool" class="headerlink" title="4.newScheduleThreadPool"></a>4.newScheduleThreadPool</h4></li>
-<li></li>
-</ul>
+        <h3 id="运行时数据区域："><a href="#运行时数据区域：" class="headerlink" title="运行时数据区域："></a>运行时数据区域：</h3><blockquote>
+<p>根据JVM规范，JVM内存共划分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五部分。</p>
+</blockquote>
+<p>内存区域图如下所示：</p>
+<img src="https://longqing9.gitee.io/blog/images/2021011101.jpg" style="zoom: 80%;" />
+
+<h3 id="1、程序计数器（线程私有）："><a href="#1、程序计数器（线程私有）：" class="headerlink" title="1、程序计数器（线程私有）："></a>1、程序计数器（线程私有）：</h3><p>程序计数器是最小的一块内存区域，它的作用是当前线程所执行的字节码的行号指示器，在虚拟机的模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、异常处理、线程恢复等基础功能都需要依赖计数器完成。</p>
+<p>如果正在执行java方法，其计数器记录的是<strong>虚拟机字节码指令的地址（当前指令的地址）</strong>。如果是<strong>Native方法，则为空</strong>。这个内存区域是唯一一个在虚拟机中<strong>没有规定任何OutOfMemoryError情况的区域。</strong></p>
+<h3 id="2、java-虚拟机栈（线程私有）："><a href="#2、java-虚拟机栈（线程私有）：" class="headerlink" title="2、java 虚拟机栈（线程私有）："></a>2、java 虚拟机栈（线程私有）：</h3><p>描述的是java方法执行的内存模型：每个方法被执行的时候 都会创建一个“栈帧”用于存储局部变量表(包括参数)、操作栈、方法出口等信息。每个方法被调用到执行完的过程，就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程。声明周期与线程相同，是线程私有的。</p>
+<p>局部变量表存放了编译器可知的各种基本数据类型(boolean、byte、char、short、int、float、long、double)、对象引用(引用指针，并非对象本身)，其中64位长度的long和double类型的数据会占用2个局部变量的空间，其余数据类型只占1个。局部变量表所需的内存空间在编译期间完成分配，当进入一个方法时，这个方法需要在栈帧中分配多大的局部变量是完全确定的，在运行期间栈帧不会改变局部变量表的大小空间。</p>
+<h3 id="3、本地方法栈（线程私有）"><a href="#3、本地方法栈（线程私有）" class="headerlink" title="3、本地方法栈（线程私有）"></a>3、本地方法栈（线程私有）</h3><p>和虚拟机栈类似，主要为虚拟机使用到的Native方法服务</p>
+<h3 id="4、方法区（线程共享）："><a href="#4、方法区（线程共享）：" class="headerlink" title="4、方法区（线程共享）："></a>4、方法区（线程共享）：</h3><p>也称”永久代” 、“非堆”，  它用于存储虚拟机加载的类信息、常量、静态变量、是各个线程共享的内存区域。默认最小值为16MB，最大值为64MB，可以通过-XX:PermSize 和 -XX:MaxPermSize 参数限制方法区的大小。</p>
+<p>运行时常量池：是方法区的一部分，Class中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息是常量池，用于存放编译器生成的各种符号引用，这部分内容将在类加载后放到方法区的运行时常量池中。</p>
+<p>在HotSpot虚拟机中，用永久代来实现方法区，将GC分代收集扩展至方法区，但是这样容易遇到内存溢出的问题。</p>
+<p>JDK1.7中，已经把放在永久代的字符串常量池移到堆中。JDK1.8撤销永久代，引入元空间。</p>
+<h3 id="5、堆（线程共享）："><a href="#5、堆（线程共享）：" class="headerlink" title="5、堆（线程共享）："></a>5、堆（线程共享）：</h3><p>被所有线程共享的一块内存区域，在虚拟机启动时创建，用来存储对象本身的以及数组（数组引用是存放在Java栈中的），堆是被所有线程共享的，在JVM中只有一个堆。</p>
+<p>由于现在收集器都是采用分代收集算法，堆被划分为新生代和老年代。新生代主要存储新创建的对象和尚未进入老年代的对象。老年代存储经过多次新生代GC(Minor GC)任然存活的对象。</p>
 
       
     </div>
@@ -388,7 +387,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag"># 线程池</a>
+            <a href="/blog/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -401,8 +400,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2019/06/12/%E5%92%8Cequals%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="==和equals的区别">
-                <i class="fa fa-chevron-left"></i> ==和equals的区别
+              <a href="/blog/2020/12/21/SpringCloud/" rel="next" title="SpringCloud">
+                <i class="fa fa-chevron-left"></i> SpringCloud
               </a>
             
           </div>
@@ -411,8 +410,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2020/12/02/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/" rel="prev" title="几种限流算法">
-                几种限流算法 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2021/01/04/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F6%E7%A7%8D%E5%AE%9E%E7%8E%B0/" rel="prev" title="单例模式">
+                单例模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、常见的5种线程池的创建"><span class="nav-number">1.</span> <span class="nav-text">1、常见的5种线程池的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-newCachedThreadPool"><span class="nav-number">1.1.</span> <span class="nav-text">1.newCachedThreadPool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-newFixedThreadPool"><span class="nav-number">1.2.</span> <span class="nav-text">2.newFixedThreadPool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-newSingleThreadExecutor"><span class="nav-number">1.3.</span> <span class="nav-text">3.newSingleThreadExecutor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-newScheduleThreadPool"><span class="nav-number">1.4.</span> <span class="nav-text">4.newScheduleThreadPool</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区域："><span class="nav-number">1.</span> <span class="nav-text">运行时数据区域：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、程序计数器（线程私有）："><span class="nav-number">2.</span> <span class="nav-text">1、程序计数器（线程私有）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、java-虚拟机栈（线程私有）："><span class="nav-number">3.</span> <span class="nav-text">2、java 虚拟机栈（线程私有）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、本地方法栈（线程私有）"><span class="nav-number">4.</span> <span class="nav-text">3、本地方法栈（线程私有）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、方法区（线程共享）："><span class="nav-number">5.</span> <span class="nav-text">4、方法区（线程共享）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、堆（线程共享）："><span class="nav-number">6.</span> <span class="nav-text">5、堆（线程共享）：</span></a></li></ol></div>
             
 
           </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Eureka,springcloud," />
+  <meta name="keywords" content="java," />
 
 
 
@@ -79,17 +79,16 @@
 
 
 
-<meta name="description" content="一、springCloud之Eureka12服务注册：Eureka 采用了CS的设计架构，Eureka Server作为服务器注册功能的服务器，他是服务的注册中心，而系统中的其他微服务，使用Eureka的客户端连接到Eureka Server并维持心跳连接，这样系统的维护人员就可以通过Eureka Server 来监控系统中各个微服务是否正常运行；在服务注册于发现中，有一个服务注册中心，当服务启动">
+<meta name="description" content="总述 在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。  1、强引用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringCloud">
-<meta property="og:url" content="https://longqing9.gitee.io/blog/2020/12/21/SpringCloud/index.html">
+<meta property="og:title" content="Java的四种引用类型">
+<meta property="og:url" content="https://longqing9.gitee.io/blog/2021/01/12/Java%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="一、springCloud之Eureka12服务注册：Eureka 采用了CS的设计架构，Eureka Server作为服务器注册功能的服务器，他是服务的注册中心，而系统中的其他微服务，使用Eureka的客户端连接到Eureka Server并维持心跳连接，这样系统的维护人员就可以通过Eureka Server 来监控系统中各个微服务是否正常运行；在服务注册于发现中，有一个服务注册中心，当服务启动">
-<meta property="article:published_time" content="2020-12-21T09:15:08.000Z">
-<meta property="article:modified_time" content="2021-01-09T13:47:26.475Z">
+<meta property="og:description" content="总述 在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。  1、强引用">
+<meta property="article:published_time" content="2021-01-12T01:29:07.000Z">
+<meta property="article:modified_time" content="2021-01-12T08:59:19.989Z">
 <meta property="article:author" content="Liu Hualong">
-<meta property="article:tag" content="Eureka">
-<meta property="article:tag" content="springcloud">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://longqing9.gitee.io/blog/2020/12/21/SpringCloud/"/>
+  <link rel="canonical" href="https://longqing9.gitee.io/blog/2021/01/12/Java的四种引用类型/"/>
 
 
 
 
 
-  <title>SpringCloud | 龍</title>
+  <title>Java的四种引用类型 | 龍</title>
   
 
 
@@ -263,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://longqing9.gitee.io/blog/blog/2020/12/21/SpringCloud/">
+    <link itemprop="mainEntityOfPage" href="https://longqing9.gitee.io/blog/blog/2021/01/12/Java%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liu Hualong">
@@ -280,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SpringCloud</h1>
+          <h1 class="post-title" itemprop="name headline">Java的四种引用类型</h1>
         
 
         <div class="post-meta">
@@ -292,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-21T17:15:08+08:00">
-                2020-12-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-12T09:29:07+08:00">
+                2021-01-12
               </time>
             
 
@@ -315,8 +314,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index">
-                    <span itemprop="name">微服务</span>
+                  <a href="/blog/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -352,34 +351,38 @@
       
 
       
-        <h3 id="一、springCloud之Eureka"><a href="#一、springCloud之Eureka" class="headerlink" title="一、springCloud之Eureka"></a>一、springCloud之Eureka</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">服务注册：Eureka 采用了CS的设计架构，Eureka Server作为服务器注册功能的服务器，他是服务的注册中心，而系统中的其他微服务，使用Eureka的客户端连接到Eureka Server并维持心跳连接，这样系统的维护人员就可以通过Eureka Server 来监控系统中各个微服务是否正常运行；</span><br><span class="line">在服务注册于发现中，有一个服务注册中心，当服务启动的时候，会把当前自己服务器的信息，比如服务地址通讯地址等以别名的方式注册到注册中心上，另一方（服务的提供者），以该别名的方式去注册中心上获取实际的服务通讯地址，然后再实现本地RPC调用RPC远程调用。框架核心设计思想：在于注册中心，因为使用注册中心管理每个服务与服务之间的一个依赖关系（服务治理理念）。在任何rpc远程框架中，都会有一个注册中心（存放服务地址相关信息（地址信息））</span><br></pre></td></tr></table></figure>
+        <h3 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h3><blockquote>
+<p>在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。</p>
+</blockquote>
+<h3 id="1、强引用"><a href="#1、强引用" class="headerlink" title="1、强引用"></a>1、强引用</h3><p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String sheetName = <span class="string">"Hello world！"</span>;</span><br></pre></td></tr></table></figure>
 
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eureka在新版中，在jar包中将eureka的客户端和eureka的服务端进行分离。在不同的eureka服务端和客户端引入不同的jar包。</span><br></pre></td></tr></table></figure>
-
-<p>1、微服务中使用Eureka的步骤如下：</p>
+<p>特点：</p>
 <ul>
-<li><p>引入jar包：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Eureka的客户端：</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">Eureka服务端：</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置文件：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">单机模式下-eureka服务端：</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">instance:</span></span><br><span class="line">    <span class="comment"># 服务实例名称</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">localhost</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment"># 是否将本服务注册到eureka注册中心</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 是否要需要注册中心检索本服务 false表示自己端就是注册中心，维护服务实例，不需要去检索服务</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="comment"># 服务端 标注自己的对外访问的服务地址</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">单机模式下-eureka客户端：</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="comment"># 当前服务的实例名称</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">cloud-consumer-apply</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">  <span class="attr">client:</span></span><br><span class="line">    <span class="comment"># 是否要需要注册中心检索本服务 false表示自己端就是注册中心，维护服务实例，不需要去检索服务</span></span><br><span class="line">    <span class="attr">fetch-registry:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># 是否将本服务注册到eureka注册中心</span></span><br><span class="line">    <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">service-url:</span></span><br><span class="line">      <span class="comment"># 客户端访问服务端的地址</span></span><br><span class="line">      <span class="attr">defaultZone:</span> <span class="string">http://localhost:7001/eureka</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：在集群模式下，Eureka的服务端要将本台Eureka服务器分别注册到集群中的其他几台Eureka服务器上，地址使用逗号隔开。在客户端，要将本台客户端服务分别注册到集群中的每一台Eureka服务器中；</p>
-</li>
-<li><p>修改业务启动类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果是在eureka的服务端添加如下注解</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="comment">// 如果实在eureka的客户端添加如下注解</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Eureka实现负载均衡：</p>
-<p>在项目演示进行中，服务和服务之间的调用是通过RestTemplate 实现，在使用RestTemplate时，需要先创建配置类，使Spring容器能够加载到RestTemplate对象，配置类如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationContextConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="comment">// 通过使用该注解 实现Eureka的调用的负载均衡的</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在服务之间调用时。不在使用IP+端口的方式进行调用，而是使用在Eureka注册中心注册的服务实力的名称进行调用的，通过此方式在集群模式下实现多次请求时，同一个消费者可以多个服务的提供者之间调用，不会一直只由一个服务提供者提供服务。</p>
-</li>
+<li>强引用可以直接访问目标对象；</li>
+<li>只要有引用变量存在，垃圾回收器永远不会回收。JVM即使抛出OOM异常，也不会回收强引用所指向的对象；</li>
+<li>强引用可能导致内存泄漏问</li>
 </ul>
+<h3 id="2、软引用"><a href="#2、软引用" class="headerlink" title="2、软引用"></a>2、软引用</h3><p>软引用是用来描述一些非必需但仍有用的对象。<strong>在内存足够的时候，软引用对象不会被回收，只有在内存不足时，系统则会回收软引用对象，如果回收了软引用对象之后仍然没有足够的内存，才会抛出内存溢出异常</strong>。这种特性常常被用来实现缓存技术，比如网页缓存，图片缓存等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">SoftReference&lt;Object&gt; sf = <span class="keyword">new</span> SoftReference&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="keyword">null</span>;</span><br><span class="line">sf.get();<span class="comment">//有时候会返回null</span></span><br></pre></td></tr></table></figure>
+
+<p>一个持有软引用的对象，不会被JVM很快回收，JVM会根据当前堆的使用情况来判断何时回收。当堆使用率临近阈值时，才会去回收软引用的对象。因此，软引用可以用于实现对内存敏感的高速缓存。SoftReference的特点是它的一个实例保存对一个Java对象的软引用，该软引用的存在不妨碍垃圾收集线程对该Java对象的回收。也就是说，一旦SoftReference保存了对一个Java对象的软引用后，在垃圾线程对 这个Java对象回收前，SoftReference类所提供的get()方法返回Java对象的强引用。一旦垃圾线程回收该Java对象之后，get()方法将返回null。</p>
+<blockquote>
+<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中。也就是说，ReferenceQueue中保存的对象是Reference对象，而且是已经失去了它所软引用的对象的Reference对象。当调用它的poll()方法的时候，如果这个队列中不是空队列，那么将返回队列前面的那个Reference对象。在任何时候，都可以调用ReferenceQueue的poll()方法来检查是否有它所关心的非强可及对象被回收。如果队列为空，将返回一个null,否则该方法返回队列中前面的一个Reference对象。利用这个方法，可以检查哪个SoftReference所软引用的对象已经被回收，于是可以把这些失去所软引用的对象的SoftReference对象清除掉。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li>软引用主要用户实现类似缓存的功能，在内存足够的情况下直接通过软引用取值，无需从繁忙的真实来源查询数据，提升速度；</li>
+<li>当内存不足时，自动删除这部分缓存数据，从真正的来源查询这些数据。使用软引用能防止内存泄露，增强程序的健壮性。</li>
+</ul>
+<h3 id="3、弱引用"><a href="#3、弱引用" class="headerlink" title="3、弱引用"></a>3、弱引用</h3><p>弱引用是一种比软引用较弱的引用类型。在系统GC时，只要发现弱引用，不管系统堆空间是否足够，都会将对象进行回收。在java中，可以用java.lang.ref.WeakReference实例来保存对一个Java对象的弱引用。不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象弱引用主要用于监控对象是否已经被垃圾回收器标记为即将回收的垃圾，可以通过弱引用的isEnQueued方法返回对象是否被垃圾回收器标记。弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p>弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; wf = <span class="keyword">new</span> WeakReference&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="keyword">null</span>;</span><br><span class="line">wf.get();<span class="comment">//有时候会返回null</span></span><br><span class="line">wf.isEnQueued();<span class="comment">//返回是否被垃圾回收器标记为即将回收的垃圾</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、虚引用"><a href="#4、虚引用" class="headerlink" title="4、虚引用"></a>4、虚引用</h3><p>虚引用是所有类型中最弱的一个。一个持有虚引用的对象和没有引用几乎是一样的，随时可能被垃圾回收器回收，当试图通过虚引用的get()方法取得强引用时，总是会失败。并且虚引用必须和引用队列一起使用，它的作用在于检测对象是否已经从内存中删除，跟踪垃圾回收过程。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在垃圾回收后，销毁这个对象，将这个虚引用加入引用队列。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; pf = <span class="keyword">new</span> PhantomReference&lt;Object&gt;(obj);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">pf.get();<span class="comment">//永远返回null</span></span><br><span class="line">pf.isEnQueued();<span class="comment">//返回是否从内存中已经删除</span></span><br></pre></td></tr></table></figure>
+
+<p>转载：<a href="https://www.cnblogs.com/czx1/p/10665327.html" target="_blank" rel="noopener">https://www.cnblogs.com/czx1/p/10665327.html</a></p>
 
       
     </div>
@@ -397,9 +400,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/Eureka/" rel="tag"># Eureka</a>
-          
-            <a href="/blog/tags/springcloud/" rel="tag"># springcloud</a>
+            <a href="/blog/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -412,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2020/12/02/%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/" rel="next" title="几种限流算法">
-                <i class="fa fa-chevron-left"></i> 几种限流算法
+              <a href="/blog/2021/01/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA/" rel="next" title="多线程的创建">
+                <i class="fa fa-chevron-left"></i> 多线程的创建
               </a>
             
           </div>
@@ -421,10 +422,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2021/01/04/%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A8%A1%E5%9E%8B/" rel="prev" title="jvm的内存区域模型">
-                jvm的内存区域模型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -576,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、springCloud之Eureka"><span class="nav-number">1.</span> <span class="nav-text">一、springCloud之Eureka</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#总述"><span class="nav-number">1.</span> <span class="nav-text">总述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、强引用"><span class="nav-number">2.</span> <span class="nav-text">1、强引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、软引用"><span class="nav-number">3.</span> <span class="nav-text">2、软引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、弱引用"><span class="nav-number">4.</span> <span class="nav-text">3、弱引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、虚引用"><span class="nav-number">5.</span> <span class="nav-text">4、虚引用</span></a></li></ol></div>
             
 
           </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="刘华龙" />
+  <meta name="keywords" content="垃圾回收机制," />
 
 
 
@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="Java的四种引用类型">
+<meta name="description" content="一、java堆内存的“分代”概念在java虚拟机中，堆内存被划分新生代，老年代和持久代三部分。新生代被划分为Eden区、Survivor&#x2F;S0区和Survivor&#x2F;S1区。和具体划分如下：  二、GC的类型因为业界没有统一的严格意义上的界限，也没有严格意义上的GC类型 在java虚拟机进行垃圾收集(GC)时，一般将其分为两种：次收集(Minor GC&#x2F;young GC)和全收集(Full GC)。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="目录">
-<meta property="og:url" content="http://yoursite.com/3021/01/13/%E7%9B%AE%E5%BD%95/index.html">
+<meta property="og:title" content="垃圾回收器">
+<meta property="og:url" content="http://yoursite.com/2021/01/16/jvm%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="Java的四种引用类型">
-<meta property="article:published_time" content="3021-01-13T05:38:11.000Z">
-<meta property="article:modified_time" content="2021-01-13T05:43:31.934Z">
+<meta property="og:description" content="一、java堆内存的“分代”概念在java虚拟机中，堆内存被划分新生代，老年代和持久代三部分。新生代被划分为Eden区、Survivor&#x2F;S0区和Survivor&#x2F;S1区。和具体划分如下：  二、GC的类型因为业界没有统一的严格意义上的界限，也没有严格意义上的GC类型 在java虚拟机进行垃圾收集(GC)时，一般将其分为两种：次收集(Minor GC&#x2F;young GC)和全收集(Full GC)。">
+<meta property="og:image" content="https://longqing9.gitee.io/blog/images/2021011801.png">
+<meta property="og:image" content="https://longqing9.gitee.io/blog/images/2021011901.png">
+<meta property="article:published_time" content="2021-01-16T08:37:34.000Z">
+<meta property="article:modified_time" content="2021-01-19T12:25:52.672Z">
 <meta property="article:author" content="Liuhualong">
-<meta property="article:tag" content="编程">
+<meta property="article:tag" content="垃圾回收机制">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://longqing9.gitee.io/blog/images/2021011801.png">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/3021/01/13/目录/"/>
+  <link rel="canonical" href="http://yoursite.com/2021/01/16/jvm垃圾回收器/"/>
 
 
 
 
 
-  <title>目录 | 龍</title>
+  <title>垃圾回收器 | 龍</title>
   
 
 
@@ -262,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/3021/01/13/%E7%9B%AE%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/16/jvm%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liuhualong">
@@ -279,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">目录</h1>
+          <h1 class="post-title" itemprop="name headline">垃圾回收器</h1>
         
 
         <div class="post-meta">
@@ -291,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="3021-01-13T13:38:11+08:00">
-                3021-01-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-16T16:37:34+08:00">
+                2021-01-16
               </time>
             
 
@@ -301,6 +304,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">java虚拟机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -329,411 +354,57 @@
       
 
       
-        <table>
-<thead>
-<tr>
-<th><a href="https://longqing9.gitee.io/blog/2021/01/12/Java的四种引用类型/" target="_blank" rel="noopener">Java的四种引用类型</a></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-
+        <h4 id="一、java堆内存的“分代”概念"><a href="#一、java堆内存的“分代”概念" class="headerlink" title="一、java堆内存的“分代”概念"></a>一、java堆内存的“分代”概念</h4><p>在java虚拟机中，堆内存被划分新生代，老年代和持久代三部分。新生代被划分为Eden区、Survivor/S0区和Survivor/S1区。和具体划分如下：</p>
+<p><img src="https://longqing9.gitee.io/blog/images/2021011801.png" alt="堆内存分代图"></p>
+<h4 id="二、GC的类型"><a href="#二、GC的类型" class="headerlink" title="二、GC的类型"></a>二、GC的类型</h4><p><strong><em>因为业界没有统一的严格意义上的界限，也没有严格意义上的GC类型</em></strong></p>
+<p>在java虚拟机进行垃圾收集(GC)时，一般将其分为两种：次收集(Minor GC/young GC)和全收集(Full GC)。</p>
+<h5 id="1、触发时机："><a href="#1、触发时机：" class="headerlink" title="1、触发时机："></a>1、触发时机：</h5><ul>
+<li><p>minor gc： 虚拟机在进行minorGC之前会判断老年代最大的可用连续空间是否大于新生代的所有对象总空间,如果大于的话，直接执行minorGC。</p>
+</li>
+<li><p>full gc:</p>
+<ul>
+<li>老年代空间不足：如果创建一个大对象，eden区中空间不足，直接保存到老年代中，当老年代空间不足时候，直接触发full gc；</li>
+<li>持久代空间不足</li>
+<li>统计YGC发生时晋升到老年代的平均总大小大于老年代的空闲空间</li>
+<li>显示调用System.gc()方法</li>
+<li>YGC出现promotion failure</li>
+</ul>
+</li>
+</ul>
+<h4 id="三、堆内存三个区的说明"><a href="#三、堆内存三个区的说明" class="headerlink" title="三、堆内存三个区的说明"></a>三、堆内存三个区的说明</h4><ul>
+<li><p>新生代 ：刚创建的对象，在代码运行时一般都会持续不断地创建新的对象，这些新创建的对象有很多是局部变量，很快就会变成垃圾对象。这些对象被放在一块称为新生代的内存区域。新生代的特点是垃圾对象多，存活对象少。</p>
+</li>
+<li><p>老年代 ： 一些对象很早被创建了，经历了多次GC也没有被回收，而是一直存活下来。这些对象被放在一块称为老年代的区域。老年代的特点是存活对象多，垃圾对象少。</p>
+</li>
+<li><p>永久代 ：一些伴随虚拟机生命周期永久存在的对象，比如一些静态对象，常量等。这些对象被放在一块称为永久代的区域。永久代的特点是这些对象一般不需要垃圾回收，会在虚拟机运行过程中一直存活。（在Java1.7之前，方法区中存储的是永久代对象，Java1.7方法区的永久代对象移到了堆中，而在Java1.8永久代已经从堆中移除了，这块内存给了元空间。）</p>
+<p><img src="https://longqing9.gitee.io/blog/images/2021011901.png" alt=""></p>
+</li>
+</ul>
+<h4 id="四、对象从新生代创建到老年代的历程："><a href="#四、对象从新生代创建到老年代的历程：" class="headerlink" title="四、对象从新生代创建到老年代的历程："></a>四、对象从新生代创建到老年代的历程：</h4><h5 id="1、说明："><a href="#1、说明：" class="headerlink" title="1、说明："></a>1、说明：</h5><ul>
+<li>对于新生代区域，每次GC都会有很多垃圾对象被回收，只有少量存活。因此采用复制回收算法，GC时把剩余很少的存活对象复制过去即可；</li>
+<li>在新生代区域中，并不是按照1:1的比例来进行复制回收，而是按照8:1:1的比例分为了Eden、Survivor/s0、Survivor/s1三个区域；</li>
+<li>Eden区对外提供堆内存，新生对象都是在Eden区被创建的；</li>
+<li>Survivor区则为幸存者，即经历GC后仍然存活下来的对象会被放在该区域内；</li>
+<li>老年代区域对象一般存活周期较长，每次GC时，存活的对象比较多，因此采用标记-整理算法</li>
+</ul>
+<h5 id="2、历程描述："><a href="#2、历程描述：" class="headerlink" title="2、历程描述："></a>2、历程描述：</h5><ul>
+<li>1、新生对象都是在Eden区被创建的；</li>
+<li>2、当Eden区即将满是，则进行Minor GC(新生代GC)，把存活对象放入SurvivorA区，同时清空Eden区；</li>
+<li>3、Eden区被清空后，继续对外提供堆内存；</li>
+<li>4、当Eden区再次被填满，此时对Eden区和Survivor/s0区同时进行Minor GC(新生代GC)，把存活对象放入Survivor/s1区，此时同时清空Eden区和Survivor/s0区；</li>
+<li>5、Eden区继续对外提供堆内存，并重复上述过程，即在 Eden 区填满后，把Eden区和某个Survivor区的存活对象放到另一个Survivor区；</li>
+<li>6、当某个Survivor区被填满，且仍有对象未完全复制时，或者某些对象在反复Survive 15次左右时，则把这部分剩余对象放到老年代区域；</li>
+<li>7、老年区也被填满时，进行Major GC（老年代GC），对老年代区域进行垃圾回收；</li>
+<li>8、老年代区域对象一般存活周期较长，每次GC时，存活的对象比较多，GC时移动少量存活对象，不会产生内存碎片。</li>
+</ul>
+<h5 id="3、触发GC的类型"><a href="#3、触发GC的类型" class="headerlink" title="3、触发GC的类型"></a>3、触发GC的类型</h5><p>Java虚拟机会把每次触发GC的信息打印出来，可以根据日志来分析触发GC的原因。</p>
+<ul>
+<li>GC_FOR_MALLOC：表示是在堆上分配对象时内存不足触发的GC；</li>
+<li>GC_CONCURRENT：当我们应用程序的堆内存达到一定量，或者可以理解为快要满的时候，系统会自动触发GC操作来释放内存；</li>
+<li>GC_EXPpCIT：表示是应用程序调用System.gc、VMRuntime.gc接口或者收到SIGUSR1信号时触发的GC；</li>
+<li>GC_BEFORE_OOM：表示是在准备抛OOM异常之前进行的最后努力而触发的GC。</li>
+</ul>
+<h4 id="五、七大垃圾回收器"><a href="#五、七大垃圾回收器" class="headerlink" title="五、七大垃圾回收器"></a>五、七大垃圾回收器</h4>
       
     </div>
     
@@ -747,6 +418,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" rel="tag"># 垃圾回收机制</a>
+          
+        </div>
       
 
       
@@ -817,8 +494,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -837,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -859,7 +545,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -898,6 +584,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、java堆内存的“分代”概念"><span class="nav-text">一、java堆内存的“分代”概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、GC的类型"><span class="nav-text">二、GC的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、触发时机："><span class="nav-text">1、触发时机：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、堆内存三个区的说明"><span class="nav-text">三、堆内存三个区的说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、对象从新生代创建到老年代的历程："><span class="nav-text">四、对象从新生代创建到老年代的历程：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、说明："><span class="nav-text">1、说明：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、历程描述："><span class="nav-text">2、历程描述：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、触发GC的类型"><span class="nav-text">3、触发GC的类型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、七大垃圾回收器"><span class="nav-text">五、七大垃圾回收器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

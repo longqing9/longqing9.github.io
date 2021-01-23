@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="一、数据库引擎Mysql的MyISAM引擎不支持事务回滚，如果需要数据回滚，需要将Mysql的引擎设置为InnoDB; 二、对异常进行捕获Spring事务中默认的事务管理只能处理显示抛出的RuntimeException，如果对该异常进行try…catch处理，事务将不会生效； 三、方法不为公共方法使用@Transaction注解，该注解只针对public方法生效。同样需要指定出现那种异常的清下进">
+<meta name="description" content="一、Spring事务的七种传播机制 required：业务方法需要在一个容器里执行。如果方法运行时已经处于一个事务中，那么加入到这个事务。否则自己新建一个新的事务； surpported：该方法在某个事务范围内被调用，则方法成为该事务的一部分。如果方法在事务范围外被调用，该方法就在没有事务的环境下执行； requires-new：不管是否存在事务，该方法总会为自己发起一个新事务。如果方法已经运行在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring事务失效的几种情况">
 <meta property="og:url" content="http://yoursite.com/2021/01/20/Spring%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="一、数据库引擎Mysql的MyISAM引擎不支持事务回滚，如果需要数据回滚，需要将Mysql的引擎设置为InnoDB; 二、对异常进行捕获Spring事务中默认的事务管理只能处理显示抛出的RuntimeException，如果对该异常进行try…catch处理，事务将不会生效； 三、方法不为公共方法使用@Transaction注解，该注解只针对public方法生效。同样需要指定出现那种异常的清下进">
+<meta property="og:description" content="一、Spring事务的七种传播机制 required：业务方法需要在一个容器里执行。如果方法运行时已经处于一个事务中，那么加入到这个事务。否则自己新建一个新的事务； surpported：该方法在某个事务范围内被调用，则方法成为该事务的一部分。如果方法在事务范围外被调用，该方法就在没有事务的环境下执行； requires-new：不管是否存在事务，该方法总会为自己发起一个新事务。如果方法已经运行在">
 <meta property="article:published_time" content="2021-01-20T11:57:57.000Z">
-<meta property="article:modified_time" content="2021-01-20T12:05:52.177Z">
+<meta property="article:modified_time" content="2021-01-23T09:42:25.734Z">
 <meta property="article:author" content="Liuhualong">
 <meta property="article:tag" content="Spring">
 <meta property="article:tag" content="事务">
@@ -352,12 +352,72 @@
       
 
       
-        <h4 id="一、数据库引擎"><a href="#一、数据库引擎" class="headerlink" title="一、数据库引擎"></a>一、数据库引擎</h4><p>Mysql的MyISAM引擎不支持事务回滚，如果需要数据回滚，需要将Mysql的引擎设置为InnoDB;</p>
-<h4 id="二、对异常进行捕获"><a href="#二、对异常进行捕获" class="headerlink" title="二、对异常进行捕获"></a>二、对异常进行捕获</h4><p>Spring事务中默认的事务管理只能处理显示抛出的RuntimeException，如果对该异常进行try…catch处理，事务将不会生效；</p>
-<h4 id="三、方法不为公共方法"><a href="#三、方法不为公共方法" class="headerlink" title="三、方法不为公共方法"></a>三、方法不为公共方法</h4><p>使用@Transaction注解，该注解只针对public方法生效。同样需要指定出现那种异常的清下进行回滚：@Transactional(rollbackFor = Exception.class)</p>
-<h4 id="四、方法内部调用"><a href="#四、方法内部调用" class="headerlink" title="四、方法内部调用"></a>四、方法内部调用</h4><p>同类中事务的方法不能嵌套在其他方法中，Q类中A方法调用B方法，B方法开启事务注解，B方法中事务不会生效。</p>
-<h4 id="五、事务覆盖"><a href="#五、事务覆盖" class="headerlink" title="五、事务覆盖"></a>五、事务覆盖</h4><p>当类配置了@Transactional，方法也配置了@Transactional，方法的事务会覆盖类的事务配置信息。</p>
-<h4 id="六、事务传播行为设置错误"><a href="#六、事务传播行为设置错误" class="headerlink" title="六、事务传播行为设置错误"></a>六、事务传播行为设置错误</h4><p>@Transactional 注解属性 propagation（事务的传播行为） 设置错误</p>
+        <h4 id="一、Spring事务的七种传播机制"><a href="#一、Spring事务的七种传播机制" class="headerlink" title="一、Spring事务的七种传播机制"></a>一、Spring事务的七种传播机制</h4><ul>
+<li>required：业务方法需要在一个容器里执行。如果方法运行时已经处于一个事务中，那么加入到这个事务。否则自己新建一个新的事务；</li>
+<li>surpported：该方法在某个事务范围内被调用，则方法成为该事务的一部分。如果方法在事务范围外被调用，该方法就在没有事务的环境下执行；</li>
+<li>requires-new：不管是否存在事务，该方法总会为自己发起一个新事务。如果方法已经运行在一个事务中，则将当前事务挂起，重新创建一个新事务；</li>
+<li>not-surpported：声明方法不需要事务。如果方法没有关联到一个事务，容器不会为他开启事务，如果方法在一个事务中被调用，该事务会被挂起，调用结束后，原先的事务会恢复执行；</li>
+<li>mandatory：该方法只能在一个已经存在的事务中执行，业务方法不能发起自己的事务。如果在没有事务的环境下被调用，容器抛出异常；</li>
+<li>nested：如果一个活动的事务存在，则运行在一个嵌套的事务中。如果没有活动事务，则按照required属性执行。（内部的回滚不会对外部产生影响，但是外部回滚时内部会一起回滚）；</li>
+<li>never：该方法绝对不能在事务范围内执行，如果在就抛出异常。只有该方法没有关联到任何事务，才能正常执行。</li>
+</ul>
+<h4 id="二、Spring事务失效的几种情况"><a href="#二、Spring事务失效的几种情况" class="headerlink" title="二、Spring事务失效的几种情况"></a>二、Spring事务失效的几种情况</h4><h5 id="1、数据库引擎"><a href="#1、数据库引擎" class="headerlink" title="1、数据库引擎"></a>1、数据库引擎</h5><p>Mysql的MyISAM引擎不支持事务回滚，如果需要数据回滚，需要将Mysql的引擎设置为InnoDB;</p>
+<h5 id="2、对异常进行捕获"><a href="#2、对异常进行捕获" class="headerlink" title="2、对异常进行捕获"></a>2、对异常进行捕获</h5><p>Spring事务中默认的事务管理只能处理显示抛出的RuntimeException，如果对该异常进行try…catch处理，事务将不会生效；</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">Boolean</span> <span class="title">addProduct</span>(<span class="title">Product</span> <span class="title">product</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        result = productDao.insert(product);</span><br><span class="line">        <span class="keyword">int</span> q = <span class="number">12</span> /<span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception ex)&#123;</span><br><span class="line">        ex.getStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、方法不为公共方法"><a href="#3、方法不为公共方法" class="headerlink" title="3、方法不为公共方法"></a>3、方法不为公共方法</h5><p>使用@Transaction注解，该注解只针对public方法生效。同样需要指定出现那种异常的清下进行回滚：@Transactional(rollbackFor = Exception.class);</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">private</span> <span class="title">Boolean</span> <span class="title">updateProduct</span>(<span class="title">Product</span> <span class="title">oldProduct</span>,<span class="title">Product</span> <span class="title">newProduct</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!Objects.isNull(newProduct.getAmount()))&#123;</span><br><span class="line">        oldProduct.setAmount(newProduct.getAmount());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!Objects.isNull(newProduct.getName()))&#123;</span><br><span class="line">        oldProduct.setName(newProduct.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!Objects.isNull(newProduct.getVersion()))&#123;</span><br><span class="line">        oldProduct.setVersion(newProduct.getVersion());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> productTestService.updatetest(oldProduct);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4、方法内部调用"><a href="#4、方法内部调用" class="headerlink" title="4、方法内部调用"></a>4、方法内部调用</h5><p>同类中事务的方法不能嵌套在其他方法中，Q类中A方法调用B方法，B方法开启事务注解，B方法中事务不会生效。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductServiceImpl</span> <span class="keyword">implements</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ProductDao productDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Boolean <span class="title">updateProduct</span><span class="params">(Product product)</span></span>&#123;</span><br><span class="line">        updateProductInfo(product);</span><br><span class="line">        <span class="keyword">return</span> updateProduct(product1,product);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Boolean</span> <span class="title">updateProduct1</span>(<span class="title">Product</span> <span class="title">product</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = productDao.updateById(product);</span><br><span class="line">        <span class="keyword">return</span> result &gt; <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、事务覆盖"><a href="#5、事务覆盖" class="headerlink" title="5、事务覆盖"></a>5、事务覆盖</h5><p>当类配置了@Transactional，方法也配置了@Transactional，方法的事务会覆盖类的事务配置信息。</p>
+<h5 id="6、事务传播行为设置错误"><a href="#6、事务传播行为设置错误" class="headerlink" title="6、事务传播行为设置错误"></a>6、事务传播行为设置错误</h5><p>@Transactional 注解属性 propagation（事务的传播行为） 设置错误；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductServiceImpl</span> <span class="keyword">implements</span> <span class="title">ProductService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ProductDao productDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Boolean</span> <span class="title">outMethod</span>(<span class="title">Product</span> <span class="title">product</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//添加数据</span></span><br><span class="line">     	productDao.insert(product);</span><br><span class="line">        product.setId(<span class="number">1352815665135575041L</span>);</span><br><span class="line">        <span class="comment">// 更新数据</span></span><br><span class="line">        <span class="keyword">return</span> innerMethod(product);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span>(rollbackFor = Exception<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Boolean</span> <span class="title">innerMethod</span>(<span class="title">Product</span> <span class="title">product</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = productDao.updateById(product);</span><br><span class="line">        <span class="keyword">return</span> result &gt; <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据上述代码，说明@Transactional 注解属性 propagation，事务的传播机制如下：</p>
+<table>
+<thead>
+<tr>
+<th>propagation属性</th>
+<th>outMethod()无事务</th>
+<th>innerMethod</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Propagation.MANDATORY</td>
+<td>抛出异常</td>
+<td>在外部方法的事务中运行</td>
+</tr>
+<tr>
+<td>Propagation.NEVER</td>
+<td>不在事务中运行</td>
+<td>内部方法抛出异常</td>
+</tr>
+<tr>
+<td>Propagation.NOT_SUPPORTED</td>
+<td>不再事务中运行</td>
+<td>外部方法的事务暂停直至内部方法运行完成</td>
+</tr>
+<tr>
+<td>Propagation.REQUIRED ( <strong>默认值</strong> )</td>
+<td>新开一个事务并在其中运行</td>
+<td>在外部方法的事务中运行</td>
+</tr>
+<tr>
+<td>Propagation.REQUIRES_NEW</td>
+<td>新开一个事务并在其中运行</td>
+<td>外部方法的事务暂停直至内部方法中新开事务并执行完毕</td>
+</tr>
+<tr>
+<td>Propagation.SUPPORTS</td>
+<td>不再事务中运行</td>
+<td>在外部方法中事务中运行</td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -550,7 +610,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、数据库引擎"><span class="nav-text">一、数据库引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、对异常进行捕获"><span class="nav-text">二、对异常进行捕获</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、方法不为公共方法"><span class="nav-text">三、方法不为公共方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、方法内部调用"><span class="nav-text">四、方法内部调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、事务覆盖"><span class="nav-text">五、事务覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、事务传播行为设置错误"><span class="nav-text">六、事务传播行为设置错误</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Spring事务的七种传播机制"><span class="nav-text">一、Spring事务的七种传播机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、Spring事务失效的几种情况"><span class="nav-text">二、Spring事务失效的几种情况</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、数据库引擎"><span class="nav-text">1、数据库引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、对异常进行捕获"><span class="nav-text">2、对异常进行捕获</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、方法不为公共方法"><span class="nav-text">3、方法不为公共方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、方法内部调用"><span class="nav-text">4、方法内部调用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、事务覆盖"><span class="nav-text">5、事务覆盖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、事务传播行为设置错误"><span class="nav-text">6、事务传播行为设置错误</span></a></li></ol></li></ol></div>
             
 
           </div>

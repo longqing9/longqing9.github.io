@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java," />
+  <meta name="keywords" content="MySQL,缓存," />
 
 
 
@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="总述 在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。  1、强引用">
+<meta name="description" content="1、MySQL之InnoDB的缓冲池介绍应用系统分层架构，为了加速数据访问，会把最常访问的数据放在缓存中，避免每次都去访问数据库。这种机制被称为缓冲池（buffer pool）机制，主要为了避免每次都访问磁盘，以加速数据的访问，MySQL作为一个存储系统，同样具有缓冲池机制，以避免每次都查询数据进行磁盘IO； 2、缓冲池中存储的内容缓冲池(buffer pool)中缓存中数据页类型有：索引页、数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java的四种引用类型">
-<meta property="og:url" content="http://yoursite.com/2021/01/12/Java%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:title" content="MySQL缓冲池">
+<meta property="og:url" content="http://yoursite.com/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="总述 在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。  1、强引用">
-<meta property="article:published_time" content="2021-01-12T01:29:07.000Z">
-<meta property="article:modified_time" content="2021-01-12T08:59:19.989Z">
+<meta property="og:description" content="1、MySQL之InnoDB的缓冲池介绍应用系统分层架构，为了加速数据访问，会把最常访问的数据放在缓存中，避免每次都去访问数据库。这种机制被称为缓冲池（buffer pool）机制，主要为了避免每次都访问磁盘，以加速数据的访问，MySQL作为一个存储系统，同样具有缓冲池机制，以避免每次都查询数据进行磁盘IO； 2、缓冲池中存储的内容缓冲池(buffer pool)中缓存中数据页类型有：索引页、数据">
+<meta property="article:published_time" content="2021-06-12T03:57:28.000Z">
+<meta property="article:modified_time" content="2021-06-12T05:29:20.870Z">
 <meta property="article:author" content="Liuhualong">
-<meta property="article:tag" content="java">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="缓存">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2021/01/12/Java的四种引用类型/"/>
+  <link rel="canonical" href="http://yoursite.com/2021/06/12/MySQL缓冲池/"/>
 
 
 
 
 
-  <title>Java的四种引用类型 | 龍</title>
+  <title>MySQL缓冲池 | 龍</title>
   
 
 
@@ -262,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/12/Java%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liuhualong">
@@ -279,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java的四种引用类型</h1>
+          <h1 class="post-title" itemprop="name headline">MySQL缓冲池</h1>
         
 
         <div class="post-meta">
@@ -291,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-12T09:29:07+08:00">
-                2021-01-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-12T11:57:28+08:00">
+                2021-06-12
               </time>
             
 
@@ -314,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -351,38 +352,17 @@
       
 
       
-        <h3 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h3><blockquote>
-<p>在JDK1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。JDK1.2之后，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，四种引用强度依次逐渐减弱。</p>
-</blockquote>
-<h3 id="1、强引用"><a href="#1、强引用" class="headerlink" title="1、强引用"></a>1、强引用</h3><p>例如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String sheetName = <span class="string">"Hello world！"</span>;</span><br></pre></td></tr></table></figure>
-
-<p>特点：</p>
-<ul>
-<li>强引用可以直接访问目标对象；</li>
-<li>只要有引用变量存在，垃圾回收器永远不会回收。JVM即使抛出OOM异常，也不会回收强引用所指向的对象；</li>
-<li>强引用可能导致内存泄漏问</li>
-</ul>
-<h3 id="2、软引用"><a href="#2、软引用" class="headerlink" title="2、软引用"></a>2、软引用</h3><p>软引用是用来描述一些非必需但仍有用的对象。<strong>在内存足够的时候，软引用对象不会被回收，只有在内存不足时，系统则会回收软引用对象，如果回收了软引用对象之后仍然没有足够的内存，才会抛出内存溢出异常</strong>。这种特性常常被用来实现缓存技术，比如网页缓存，图片缓存等。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">SoftReference&lt;Object&gt; sf = <span class="keyword">new</span> SoftReference&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="keyword">null</span>;</span><br><span class="line">sf.get();<span class="comment">//有时候会返回null</span></span><br></pre></td></tr></table></figure>
-
-<p>一个持有软引用的对象，不会被JVM很快回收，JVM会根据当前堆的使用情况来判断何时回收。当堆使用率临近阈值时，才会去回收软引用的对象。因此，软引用可以用于实现对内存敏感的高速缓存。SoftReference的特点是它的一个实例保存对一个Java对象的软引用，该软引用的存在不妨碍垃圾收集线程对该Java对象的回收。也就是说，一旦SoftReference保存了对一个Java对象的软引用后，在垃圾线程对 这个Java对象回收前，SoftReference类所提供的get()方法返回Java对象的强引用。一旦垃圾线程回收该Java对象之后，get()方法将返回null。</p>
-<blockquote>
-<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收器回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中。也就是说，ReferenceQueue中保存的对象是Reference对象，而且是已经失去了它所软引用的对象的Reference对象。当调用它的poll()方法的时候，如果这个队列中不是空队列，那么将返回队列前面的那个Reference对象。在任何时候，都可以调用ReferenceQueue的poll()方法来检查是否有它所关心的非强可及对象被回收。如果队列为空，将返回一个null,否则该方法返回队列中前面的一个Reference对象。利用这个方法，可以检查哪个SoftReference所软引用的对象已经被回收，于是可以把这些失去所软引用的对象的SoftReference对象清除掉。</p>
-</blockquote>
-<p>特点：</p>
-<ul>
-<li>软引用主要用户实现类似缓存的功能，在内存足够的情况下直接通过软引用取值，无需从繁忙的真实来源查询数据，提升速度；</li>
-<li>当内存不足时，自动删除这部分缓存数据，从真正的来源查询这些数据。使用软引用能防止内存泄露，增强程序的健壮性。</li>
-</ul>
-<h3 id="3、弱引用"><a href="#3、弱引用" class="headerlink" title="3、弱引用"></a>3、弱引用</h3><p>弱引用是一种比软引用较弱的引用类型。在系统GC时，只要发现弱引用，不管系统堆空间是否足够，都会将对象进行回收。在java中，可以用java.lang.ref.WeakReference实例来保存对一个Java对象的弱引用。不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象弱引用主要用于监控对象是否已经被垃圾回收器标记为即将回收的垃圾，可以通过弱引用的isEnQueued方法返回对象是否被垃圾回收器标记。弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
-<p>弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">WeakReference&lt;Object&gt; wf = <span class="keyword">new</span> WeakReference&lt;Object&gt;(obj);</span><br><span class="line">obj = <span class="keyword">null</span>;</span><br><span class="line">wf.get();<span class="comment">//有时候会返回null</span></span><br><span class="line">wf.isEnQueued();<span class="comment">//返回是否被垃圾回收器标记为即将回收的垃圾</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4、虚引用"><a href="#4、虚引用" class="headerlink" title="4、虚引用"></a>4、虚引用</h3><p>虚引用是所有类型中最弱的一个。一个持有虚引用的对象和没有引用几乎是一样的，随时可能被垃圾回收器回收，当试图通过虚引用的get()方法取得强引用时，总是会失败。并且虚引用必须和引用队列一起使用，它的作用在于检测对象是否已经从内存中删除，跟踪垃圾回收过程。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在垃圾回收后，销毁这个对象，将这个虚引用加入引用队列。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">PhantomReference&lt;Object&gt; pf = <span class="keyword">new</span> PhantomReference&lt;Object&gt;(obj);</span><br><span class="line">obj=<span class="keyword">null</span>;</span><br><span class="line">pf.get();<span class="comment">//永远返回null</span></span><br><span class="line">pf.isEnQueued();<span class="comment">//返回是否从内存中已经删除</span></span><br></pre></td></tr></table></figure>
-
-<p>转载：<a href="https://www.cnblogs.com/czx1/p/10665327.html" target="_blank" rel="noopener">https://www.cnblogs.com/czx1/p/10665327.html</a></p>
+        <h3 id="1、MySQL之InnoDB的缓冲池介绍"><a href="#1、MySQL之InnoDB的缓冲池介绍" class="headerlink" title="1、MySQL之InnoDB的缓冲池介绍"></a>1、MySQL之InnoDB的缓冲池介绍</h3><p>应用系统分层架构，为了加速数据访问，会把最常访问的数据放在缓存中，避免每次都去访问数据库。这种机制被称为缓冲池（buffer pool）机制，主要为了避免每次都访问磁盘，以加速数据的访问，MySQL作为一个存储系统，同样具有缓冲池机制，以避免每次都查询数据进行磁盘IO；</p>
+<h3 id="2、缓冲池中存储的内容"><a href="#2、缓冲池中存储的内容" class="headerlink" title="2、缓冲池中存储的内容"></a>2、缓冲池中存储的内容</h3><p>缓冲池(buffer pool)中缓存中数据页类型有：索引页、数据页、undo页、插入缓冲（insert buffer）、自适应哈希索引、InnoDB存储的锁信息、数组字典信息等；</p>
+<h3 id="3、Buffer-pool数据加载"><a href="#3、Buffer-pool数据加载" class="headerlink" title="3、Buffer pool数据加载"></a>3、Buffer pool数据加载</h3><h4 id="3-1-Buffer-pool预热"><a href="#3-1-Buffer-pool预热" class="headerlink" title="3.1 Buffer pool预热"></a>3.1 Buffer pool预热</h4><p>MySQL在重启之后，缓冲池中没有数据，此时业务上对数据库中数据的操作只能从磁盘中读取数据到内存中，这个过程可能需要很久才能是内存中的数据是业务频繁使用的。buffer pool中数据从无到有业务频繁使用的热数据的过程称为预热，所以在预热的过程中，MySQL数据库的吸能不会特别好，并且Buffer pool越大，预热过程越长。</p>
+<p>为了减少预热的过程，在MySQL关闭之前，吧buffer pool中的页面信息保存到磁盘，等到MySQL启动时，再根据之前保存的数据把磁盘中的数据加载代buffer pool中即可；</p>
+<h4 id="3-2-预读机制"><a href="#3-2-预读机制" class="headerlink" title="3.2 预读机制"></a>3.2 预读机制</h4><p>预读机制是InnoDB在IO的优化上的一个比较重要的特性，预读请求是一个IO请求，它会异步的在缓冲池中先回迁多个页面，预读很快就会需要这些页面，这些请求在一个范围内引入所有页面，InnoDB以64个page为一个extent。InnoDB使用两种预读算法来进行提高IO性能：线性预读和随机预读。</p>
+<h5 id="3-2-1-数据库请求数据的过程"><a href="#3-2-1-数据库请求数据的过程" class="headerlink" title="3.2.1 数据库请求数据的过程"></a>3.2.1 数据库请求数据的过程</h5><p>数据库请求数据时，会将读请求交给文件系统，放入请求队列中；会有进程从请求队列中将读请求取出，根据需求到对应的数据区（内存、磁盘）读取数据；取出的数据放入到响应队列中，最后数据库会从响应队列中将数据取走，完成数据库读操作的过程；</p>
+<p>数据库在请求数据时，会判断后面几个数据读请求是否相邻，再根据自身系统IO宽带处理量进行预读，进行读请求的合并处理，一次读取多块数据放入响应队列中，在被数据库取走。</p>
+<h5 id="3-2-2-线性预读"><a href="#3-2-2-线性预读" class="headerlink" title="3.2.2 线性预读"></a>3.2.2 线性预读</h5><p>线性预读方式有一个很重要的变量控制是否将一个extent预读到buffer pool中，通过使用配置参数 innodb_read_ahead_threshold，控制触发innodb执行预读的时间。</p>
+<p>如果一个extent中的被顺序读取的page超过或者等于该参数变量时，InnoDB将会异步的将下一个extent读取到缓冲池中，innodb_read_ahead_threshold可以设置0-64的任何值，因为一个extent中就只有64页，默认是56页，值越高，访问模式检查越严格。</p>
+<h5 id="3-2-3-随机预读"><a href="#3-2-3-随机预读" class="headerlink" title="3.2.3 随机预读"></a>3.2.3 随机预读</h5><p>随机预读方式则是表示当同一个extent中的一些page在buffer pool中发现时，innodb会将该extent中剩余page一并读到buffer pool中。</p>
+<p>由于随机预读方式给innodb code带来了一些不必要的复杂性，同时在性能也存在不稳定性，在5.5中已经将这种预读方式 废弃，默认是OFF 。若要启用此功能，即将配置变量设置innodb_random_read_ahead为ON</p>
 
       
     </div>
@@ -400,7 +380,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
           
         </div>
       
@@ -413,8 +395,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/01/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA/" rel="next" title="多线程的创建">
-                <i class="fa fa-chevron-left"></i> 多线程的创建
+              <a href="/2021/06/02/redis%E4%BA%8B%E5%8A%A1/" rel="next" title="Redis事务">
+                <i class="fa fa-chevron-left"></i> Redis事务
               </a>
             
           </div>
@@ -422,10 +404,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/01/13/jvm%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" rel="prev" title="jvm的垃圾回收机制">
-                jvm的垃圾回收机制 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -577,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#总述"><span class="nav-text">总述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、强引用"><span class="nav-text">1、强引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、软引用"><span class="nav-text">2、软引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、弱引用"><span class="nav-text">3、弱引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、虚引用"><span class="nav-text">4、虚引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、MySQL之InnoDB的缓冲池介绍"><span class="nav-text">1、MySQL之InnoDB的缓冲池介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、缓冲池中存储的内容"><span class="nav-text">2、缓冲池中存储的内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Buffer-pool数据加载"><span class="nav-text">3、Buffer pool数据加载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-Buffer-pool预热"><span class="nav-text">3.1 Buffer pool预热</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-预读机制"><span class="nav-text">3.2 预读机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-数据库请求数据的过程"><span class="nav-text">3.2.1 数据库请求数据的过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-线性预读"><span class="nav-text">3.2.2 线性预读</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-随机预读"><span class="nav-text">3.2.3 随机预读</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

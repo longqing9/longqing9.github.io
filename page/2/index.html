@@ -1712,8 +1712,7 @@ BLOCKED（阻塞状态）：notify方法被调用后线程被唤醒，此时noti
       
         
           
-          HashMap的数据结构为数组和链表组合构成的；
-1.1  Map存储过程​    在Map中是采用key-value键值对的形式进行存储数据的，当put数据时，会首先对key进行hash计算，获取key在数组中的索引值，根据索引值存储到对应的数组元素中，如果多个不同的key经过hash计算之后获取
+          1.1  Map存储过程在Map中是采用key-value键值对的形式进行存储数据的、底层数据结构是由数组＋链表构成的，在多线程环环境下存在线程并发问题。HashMap数组的长度默认为16，加载因子默认为0.75f，当进行put数据时，会对key进行hash计算，获取到该key在数组中存在的位置，当
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1851,7 +1850,7 @@ BLOCKED（阻塞状态）：notify方法被调用后线程被唤醒，此时noti
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="mailto:16113044852@qq.com" target="_blank" title="E-Mail">
+                    <a href="mailto:1611304485@qq.com" target="_blank" title="E-Mail">
                       
                         <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                   </span>

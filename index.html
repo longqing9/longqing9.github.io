@@ -261,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Liuhualong">
@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" itemprop="url">MySQL的执行计划</a></h1>
+                <a class="post-title-link" href="/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/" itemprop="url">MySQL的执行过程及执行计划</a></h1>
         
 
         <div class="post-meta">
@@ -302,6 +302,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -332,22 +354,15 @@
       
         
           
-          MySQL的执行计划EXPLAIN
-
-使用EXPLAIN关键字可以模拟优化器执行SQL查询语句，从而知道MYSQL是如何处理SQL语句的，分析查询语句或是表结构的性能瓶颈；
-
-EXPLAIN的作用：
-
-
-获取表的读取速度；
-数据读取操作的操作类型；
-哪些索引可以使用；
-哪些索引被实际使用；
-表之间的
+          1、SQL语句的执行的过程
+1、连接器：当客户端登录MySQL时进行身份验证和权限判断；
+2、查询缓存：执行查询语句的时，会先查询缓存，命中则直接返回；没有则进行下一步；
+3、分析器：没有命中缓存的情况下，SQL请求就会来到分析器，分析器负责明确SQL要完成的功能，以及检查SQL的语法是否正确；
+4
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/#more" rel="contents">
+            <a class="btn" href="/2021/06/13/MySQL%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1838,7 +1853,7 @@ surpported：该方法在某个事务范围内被调用，则方法成为该事�
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="mailto:16113044852@qq.com" target="_blank" title="E-Mail">
+                    <a href="mailto:1611304485@qq.com" target="_blank" title="E-Mail">
                       
                         <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                   </span>

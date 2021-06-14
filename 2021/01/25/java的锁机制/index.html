@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="龍">
 <meta property="og:description" content="1、乐观锁和悲观锁1、乐观锁  乐观锁认为在使用数据时，不会有线程修改数据，所以不会添加锁。  乐观锁其实是一种无锁的状态，是通过CAS算法（对比与交换）实现的，只是在更新数据时判断是否有线程修改了数据，如果数据没有更新，则将线程数据写入；如果数据被别的线程修改，则进行重试。 2、悲观锁  悲观锁认为自己在使用数据时，一定会存在其他的线程在修改数据，所以他会在使用数据前先加锁，等到使用完毕释放锁资">
 <meta property="article:published_time" content="2021-01-25T02:11:51.000Z">
-<meta property="article:modified_time" content="2021-06-13T06:22:18.881Z">
+<meta property="article:modified_time" content="2021-06-14T13:30:00.947Z">
 <meta property="article:author" content="Liuhualong">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="锁机制">
@@ -392,7 +392,33 @@
 </blockquote>
 <p>ReentrantLock和synchronized就是一个典型的可重入锁。可重入锁的最大作用是避免死锁。</p>
 <h4 id="4、自旋锁"><a href="#4、自旋锁" class="headerlink" title="4、自旋锁"></a>4、自旋锁</h4><p>在共享数据锁定的状态下，有很多方法都是只会持有很短的一段时间，为了这么一小段时间而让线程挂起和恢复很不值得。那么jvm就让等待锁的线程稍等一下，但不放弃相应的执行时间。以此看等待的线程是否很快释放，如此就减少了线程调度的压力。如果锁被占用时间很短，这个效果就很好，如果时间过长，就白白浪费了循环的资源，而且会带来资源浪费。</p>
-<p>5、</p>
+<h4 id="5、读写锁共享锁-独占锁："><a href="#5、读写锁共享锁-独占锁：" class="headerlink" title="5、读写锁共享锁/独占锁："></a>5、读写锁共享锁/独占锁：</h4><ol>
+<li>独占锁：指该锁一次只能被一个线程所持有的，对ReentrantLock和Synchronized而言都是独占锁；</li>
+<li>共享锁：指该锁可被多个线程锁持有；</li>
+<li>对ReentrantReadLock其读锁是共享锁，写锁时独占锁；</li>
+<li>读锁的共享锁可保证并发读是非常高效的，读写、写读、写写的过程是互斥的；</li>
+<li>读锁：ReentrantReadWriteLock.read();写锁：ReentrantReadWriteLock.write();</li>
+</ol>
+<h4 id="6、Synchronized和lock的区别："><a href="#6、Synchronized和lock的区别：" class="headerlink" title="6、Synchronized和lock的区别："></a>6、Synchronized和lock的区别：</h4><h5 id="1、原始构成"><a href="#1、原始构成" class="headerlink" title="1、原始构成:"></a>1、原始构成:</h5><ul>
+<li>Synchronized是关键字属于JVM层面，底层是通过monitorenter和monitorexit实现，其中wait/notify等方法也依赖于monitor对象，只有在同步代码块或方法中才能调用wait/notify等方法；</li>
+<li>lock是具体的实现类，是api层面的锁；</li>
+</ul>
+<h5 id="2、使用方法"><a href="#2、使用方法" class="headerlink" title="2、使用方法"></a>2、使用方法</h5><ul>
+<li>Synchronized不需要手动的释放锁，当Synchronized代码执行完后系统会自动让线程释放对锁的占用；</li>
+<li>lock需要用户手动去释放锁，若没有主动释放，可能会导致死锁现象；</li>
+</ul>
+<h5 id="3、等待是否可中断："><a href="#3、等待是否可中断：" class="headerlink" title="3、等待是否可中断："></a>3、等待是否可中断：</h5><ul>
+<li>Synchronized不可中断，除非抛出异常或者正常完成；</li>
+<li>lock可中断，设置超时方法tryLock(long timeout,TimeUnit unit);lockInterruptibly()方代码块中，调用interrupt（）方法可中断；</li>
+</ul>
+<h5 id="4、加锁是否公平："><a href="#4、加锁是否公平：" class="headerlink" title="4、加锁是否公平："></a>4、加锁是否公平：</h5><ul>
+<li>Synchronized非公平锁；</li>
+<li>ReentrantLock两者都可以，默认为非公平锁，构造函数中可以出入boolean值，true为公平锁，false为非公平锁；</li>
+</ul>
+<h5 id="5、锁绑定多个条件condition："><a href="#5、锁绑定多个条件condition：" class="headerlink" title="5、锁绑定多个条件condition："></a>5、锁绑定多个条件condition：</h5><ul>
+<li>Synchronized非公平锁；</li>
+<li>ReentrantLock用来实现分组唤醒需要唤醒的线程，可以精确唤醒，而不是像Synchronized那么随机唤醒一个，要么全部唤醒；</li>
+</ul>
 
       
     </div>
@@ -591,7 +617,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、乐观锁和悲观锁"><span class="nav-text">1、乐观锁和悲观锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、公平锁和非公平锁"><span class="nav-text">2、公平锁和非公平锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、可重入锁（递归锁）"><span class="nav-text">3、可重入锁（递归锁）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、自旋锁"><span class="nav-text">4、自旋锁</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、乐观锁和悲观锁"><span class="nav-text">1、乐观锁和悲观锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、公平锁和非公平锁"><span class="nav-text">2、公平锁和非公平锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、可重入锁（递归锁）"><span class="nav-text">3、可重入锁（递归锁）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、自旋锁"><span class="nav-text">4、自旋锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、读写锁共享锁-独占锁："><span class="nav-text">5、读写锁共享锁&#x2F;独占锁：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、Synchronized和lock的区别："><span class="nav-text">6、Synchronized和lock的区别：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、原始构成"><span class="nav-text">1、原始构成:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、使用方法"><span class="nav-text">2、使用方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、等待是否可中断："><span class="nav-text">3、等待是否可中断：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、加锁是否公平："><span class="nav-text">4、加锁是否公平：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、锁绑定多个条件condition："><span class="nav-text">5、锁绑定多个条件condition：</span></a></li></ol></li></ol></div>
             
 
           </div>

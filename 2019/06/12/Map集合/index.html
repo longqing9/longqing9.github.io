@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="1.1  Map存储过程在Map中是采用key-value键值对的形式进行存储数据的、底层数据结构是由数组＋链表构成的，在多线程环环境下存在线程并发问题。HashMap数组的长度默认为16，加载因子默认为0.75f，当进行put数据时，会对key进行hash计算，获取到该key在数组中存在的位置，当出现两个key的hash值相同时，会将该数据以链表的形式插入到后面；当HashMap中的数据个数超过">
+<meta name="description" content="1、Map的实现类如下图所示： 2、HashMap说明2.1 HashMap原理HashMap的结构如下：  HashMap中是采用key-value键值对的形式进行存储数据的，底层数据结构是由数组＋链表构成的。在JDK7中叫Entry，在JDK8中叫Node。 HashMap对象创建时，初始化长度为16（一个长度为16的Node数组），在进行put数据时根据key的hash值去计算一个index">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Map集合">
 <meta property="og:url" content="http://yoursite.com/2019/06/12/Map%E9%9B%86%E5%90%88/index.html">
 <meta property="og:site_name" content="龍">
-<meta property="og:description" content="1.1  Map存储过程在Map中是采用key-value键值对的形式进行存储数据的、底层数据结构是由数组＋链表构成的，在多线程环环境下存在线程并发问题。HashMap数组的长度默认为16，加载因子默认为0.75f，当进行put数据时，会对key进行hash计算，获取到该key在数组中存在的位置，当出现两个key的hash值相同时，会将该数据以链表的形式插入到后面；当HashMap中的数据个数超过">
+<meta property="og:description" content="1、Map的实现类如下图所示： 2、HashMap说明2.1 HashMap原理HashMap的结构如下：  HashMap中是采用key-value键值对的形式进行存储数据的，底层数据结构是由数组＋链表构成的。在JDK7中叫Entry，在JDK8中叫Node。 HashMap对象创建时，初始化长度为16（一个长度为16的Node数组），在进行put数据时根据key的hash值去计算一个index">
+<meta property="og:image" content="https://longqing9.github.io/images/map.png">
+<meta property="og:image" content="https://longqing9.github.io/images/Map1.jpg">
 <meta property="article:published_time" content="2019-06-12T05:24:02.000Z">
-<meta property="article:modified_time" content="2021-06-14T05:39:15.222Z">
+<meta property="article:modified_time" content="2021-06-20T13:16:24.955Z">
 <meta property="article:author" content="Liuhualong">
 <meta property="article:tag" content="集合">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://longqing9.github.io/images/map.png">
 
 
 
@@ -352,25 +355,40 @@
       
 
       
-        <h4 id="1-1-Map存储过程"><a href="#1-1-Map存储过程" class="headerlink" title="1.1  Map存储过程"></a>1.1  Map存储过程</h4><p>在Map中是采用key-value键值对的形式进行存储数据的、底层数据结构是由数组＋链表构成的，在多线程环环境下存在线程并发问题。HashMap数组的长度默认为16，加载因子默认为0.75f，当进行put数据时，会对key进行hash计算，获取到该key在数组中存在的位置，当出现两个key的hash值相同时，会将该数据以链表的形式插入到后面；当HashMap中的数据个数超过（当前数组长度 * 加载因子）时，HashMap内开始进行扩容；当某一个链表的长度到达8时，链表开始转化为红黑树，</p>
-<h4 id="1-2-Map扩容机制"><a href="#1-2-Map扩容机制" class="headerlink" title="1.2 Map扩容机制"></a>1.2 Map扩容机制</h4><p>​     1.Map的默认存储的长度为16，默认的负载因子为0.75；Map的默认的长度使用16的原因是，在Map内进行计算key的索引值时是采用按位与进行计算，这种计算的方式比数值计算的效率要高出很多。同时在进行计算式采用长度-1和hashCode值进行计算，这样可以实现数据的均匀分布。</p>
-<p>​    2.当Map中存储的数量超出（当前长度*负载因子）就会进行扩容。每次扩容的大小是当前容量的2倍。在创建Map集合时可以设置负载因子和初始容量的大小；当Map进行扩容时首先创建一个Entry空数组，大小是之前的2倍，然后进行遍历之前的数组，将原来的数组中存在的值进行一次新的Hash计算，重新将存储在新的数组中，如果存在相同索引值，尾插法存储在链表中。</p>
-<p>​     3.在并发情况下，Map进行扩容时使用头插法，可能会出现循环链表，在查询时出现死循环。使用尾插法在同样的前提下就不会出现，原因是扩容转移后前后链表顺序不变，保持之前节点的引用关系。</p>
-<p>​     4.在JDK8中当链表的长度到达8时，链表开始转化为红黑树，当转化为红黑树后长度减少到6时，红黑树就会重新转化为链表；根据泊松分布，在负载因为为0.75f时，单个hash槽内的数据长度为8的概率小于百万分之一；</p>
-<h4 id="1-3-线程安全的Map"><a href="#1-3-线程安全的Map" class="headerlink" title="1.3 线程安全的Map"></a>1.3 线程安全的Map</h4><p>HashMap在多线程环境下存在线程安全问题，可以使用Collections.synchronizedMap()或HashTable()或ConcurrentHashMap()在多线程环境下来代替HashMap();</p>
-<h5 id="1-3-1-Collections-synchronizedMap"><a href="#1-3-1-Collections-synchronizedMap" class="headerlink" title="1.3.1 Collections.synchronizedMap()"></a>1.3.1 Collections.synchronizedMap()</h5><p>Collections.synchronizedMap()其内部维护了一个普通的对象和一个排斥锁，在操作Map对象时，就会对方法上锁；</p>
-<h5 id="1-3-2-ConcurrentHashMap"><a href="#1-3-2-ConcurrentHashMap" class="headerlink" title="1.3.2 ConcurrentHashMap"></a>1.3.2 ConcurrentHashMap</h5><p>ConcurrentHashMap底层是基于数组+链表组成的，使用volatile关键字修饰它的value和下一个节点，以此保证数据的可见性和有序性，使用CAS和Synchronized保证并发安全性；如果链表的长度大于8也会转化为红黑树；</p>
-<p>ConcurrentHashMap在进行put操作时，步骤如下：</p>
-<ul>
-<li>根据可以计算出HashCode；</li>
-<li>判断是否需要进行初始化；</li>
-<li>根据当前key定位除Node，如果空则可以写入数据，利用CAS尝试写入，失败则进行自选保证成功；</li>
-<li>如果当前位置的HashCode==moved == -1 ，则需要进行进行扩容；</li>
-<li>如果都不满足则利用Synchronized锁写入数据；</li>
-<li>如果数量大于8则进行转化为红黑树；</li>
-</ul>
-<p>ConcurrentHashMap中采用锁升级的优化方式，优先使用偏向锁优先同一线程然后再次获取锁，如果失败就升级为CAS轻量级锁，如果失败就自选，防止线程被系统挂起，最后如果以上都失败就升级为重量级锁；</p>
-<h4 id="1-4-Map其他子类介绍"><a href="#1-4-Map其他子类介绍" class="headerlink" title="1.4 Map其他子类介绍"></a>1.4 Map其他子类介绍</h4><h5 id="1-4-1-HashTable"><a href="#1-4-1-HashTable" class="headerlink" title="1.4.1 HashTable"></a>1.4.1 HashTable</h5><p>​    HashTable和HashMap都属于Map的子类，区别在于：</p>
+        <h3 id="1、Map的实现类如下图所示："><a href="#1、Map的实现类如下图所示：" class="headerlink" title="1、Map的实现类如下图所示："></a>1、Map的实现类如下图所示：</h3><p><img src="https://longqing9.github.io/images/map.png" alt=""></p>
+<h3 id="2、HashMap说明"><a href="#2、HashMap说明" class="headerlink" title="2、HashMap说明"></a>2、HashMap说明</h3><h4 id="2-1-HashMap原理"><a href="#2-1-HashMap原理" class="headerlink" title="2.1 HashMap原理"></a>2.1 HashMap原理</h4><p>HashMap的结构如下：</p>
+<p><img src="https://longqing9.github.io/images/Map1.jpg" alt=""></p>
+<p>HashMap中是采用key-value键值对的形式进行存储数据的，底层数据结构是由数组＋链表构成的。在JDK7中叫Entry，在JDK8中叫Node。</p>
+<p>HashMap对象创建时，初始化长度为16（一个长度为16的Node数组），在进行put数据时根据key的hash值去计算一个index值（在数组中的位置）。如果两个不同的key进行hash计算获取的index值相同时，就会形成链表。index的计算方法： index = HashCode（Key） &amp; （Length - 1）。</p>
+<p>节点在插入链表时，java8之前采用的是头插法，在Java8之后采用尾插法。在HashMap扩容resize时，采用头插法会出现环形链表的情况。</p>
+<p>为了提升查询效率，当链表中到达一定条就树化，当链表的长度&gt;=8且数组长度&gt;=64时，会把链表转化成红黑树；当链表长度&gt;=8，但数组长度&lt;64时，会优先进行扩容，而不是转化成红黑树；该链表就会转化为红黑树；当红黑树节点数&lt;=6，自动转化成链表；在进行remove操作时，如果红黑数中左子树或右子树中的少量不超过1，也会转化为链表。</p>
+<h4 id="2-2-HashMap的扩容机制"><a href="#2-2-HashMap的扩容机制" class="headerlink" title="2.2 HashMap的扩容机制"></a>2.2 HashMap的扩容机制</h4><p>默认创建HashMap时，HashMap中数组的初始长度是16，负载因子为0.75f。创建HashMap可以初始化数组的长度和负载因子大小。</p>
+<p>当HashMap进行put数据时，会判断当前集合中存储的元素个数，当HashMap中元素的个数超过（数组的长度 * 负载因子）时，HashMap开始进行扩容，在扩容时，HashMap会首先创建一个数组长度是为 （当前数组长度 * 2）的新数组，并开始遍历原HashMap，对现有的Node&lt;Key,value&gt;重新进行hash计算获取index值，存入新的Node[]数组中，如果存在相同索引值，尾插法存储在链表中。</p>
+<h4 id="2-3-补充说明"><a href="#2-3-补充说明" class="headerlink" title="2.3 补充说明"></a>2.3 补充说明</h4><h5 id="1、数组使用2倍扩容的原因"><a href="#1、数组使用2倍扩容的原因" class="headerlink" title="1、数组使用2倍扩容的原因"></a>1、数组使用2倍扩容的原因</h5><p>为了性能方面考虑，因为HashMap在计算Node的index值时，是通过位运算(hash &amp; (length-1))实现的，这种实现方式的效率可以比 hash % （length -1）的计算方式高出10倍左右。</p>
+<h5 id="2、在数组长度超出64的条件下，链表长度超出8开始树化的原因"><a href="#2、在数组长度超出64的条件下，链表长度超出8开始树化的原因" class="headerlink" title="2、在数组长度超出64的条件下，链表长度超出8开始树化的原因"></a>2、在数组长度超出64的条件下，链表长度超出8开始树化的原因</h5><p>根据泊松分布，在负载因为为0.75f时，单个hash槽内的数据长度为8的概率小于百万分之一；</p>
+<h5 id="3、HashMap线程不安全的原因"><a href="#3、HashMap线程不安全的原因" class="headerlink" title="3、HashMap线程不安全的原因"></a>3、HashMap线程不安全的原因</h5><p>因为HashMap的put方法和resize等操作都不是同步的。假设两个线程同一时间做put操作，就会有可能出现计算的size不正确。</p>
+<h5 id="4、HashMap的Key为null"><a href="#4、HashMap的Key为null" class="headerlink" title="4、HashMap的Key为null"></a>4、HashMap的Key为null</h5><p>在HashMap中，允许存在一个Key为null的node。</p>
+<h5 id="5、通过key获取元素是如何进行的"><a href="#5、通过key获取元素是如何进行的" class="headerlink" title="5、通过key获取元素是如何进行的"></a>5、通过key获取元素是如何进行的</h5><p>通过key获取元素时，先通过hash &amp; （length- 1）获取元素在数组中的位置，然后再比较数组中的值，如果是链表则进行循环遍历比较，找到后返回数据。比较时，对于值对象，==比较的是两个对象的值，对于引用对象，比较的是两个对象的地址。</p>
+<h5 id="6、多线程环境下使用"><a href="#6、多线程环境下使用" class="headerlink" title="6、多线程环境下使用"></a>6、多线程环境下使用</h5><p>在多线程环境下，可以使用ConcurrentHashMap或Collections.synchronizedMap()，Collections.synchronizedMap()其内部维护了一个普通的对象和一个排斥锁，在操作Map对象时，就会对方法上锁；</p>
+<h3 id="3、ConcurrentHashMap"><a href="#3、ConcurrentHashMap" class="headerlink" title="3、ConcurrentHashMap"></a>3、ConcurrentHashMap</h3><p>ConcurrentHashMap底层是基于数组+链表组成的，使用volatile关键字修饰它的value和下一个节点，以此保证数据的可见性和有序性，使用CAS和Synchronized保证并发安全性；</p>
+<h4 id="3-1-ConcurrentHashMap原理"><a href="#3-1-ConcurrentHashMap原理" class="headerlink" title="3.1 ConcurrentHashMap原理"></a>3.1 ConcurrentHashMap原理</h4><p>ConcurrentHashMap的底层是数组和链表，其中并发问题是通过CAS和Synchronized解决的。ConcurrentHashMap的默认初始化大小是16，负载因子是0.75f，Hash冲突、树化的条件和HashMap的方式相同，ConcurrentHash中不允许key或value为null,在put时如果任意一个为null就会抛出空指针异常，ConcurrentHashMap在创建对象时，不会进行初始化，只有当第一次put时，才会进行初始化，初始化数组的默认空间大小为16，扩容时大小为2的幂次方。</p>
+<h4 id="3-2-ConcurrentHashMap的get方法的过程"><a href="#3-2-ConcurrentHashMap的get方法的过程" class="headerlink" title="3.2 ConcurrentHashMap的get方法的过程"></a>3.2 ConcurrentHashMap的get方法的过程</h4><p>首先计算hash值，定位到该table索引位置，如果是首节点符合就返回</p>
+<p>如果遇到扩容的时候，就会在新的数组上查找该节点，匹配就返回</p>
+<p>以上都不符合的话，就往下遍历节点，匹配就返回，否则最后就返回null</p>
+<h4 id="3-3-扩容过程"><a href="#3-3-扩容过程" class="headerlink" title="3.3 扩容过程"></a>3.3 扩容过程</h4><p>1、先创建一个新的数组，长度树原数组的2倍。</p>
+<p>2、首先需要把老数组的值拷贝(通过Hash计算位置)到新数组上，数组拷贝是从数组末端开始的，设值时是通过CAS（putObjectVolatile）方法保证数据安全性。</p>
+<p>3、在复制时，会先在原数组槽点上加锁，保证原数组槽点不能操作，原数组槽点上的节点设置到新数组之后会将原数组槽点设置为转转移节点，转移节点不可以新增数据。</p>
+<p>4、如果有新的数据进行put的位置为转移节点，会等待新数组赋值完成，在进行put。</p>
+<p>5、新数组赋值完成，会直接把新数组赋值给数组容器，至此扩容完成。</p>
+<h4 id="3-4-补充说明"><a href="#3-4-补充说明" class="headerlink" title="3.4 补充说明"></a>3.4 补充说明</h4><h5 id="1、concurrentHashMap是如何保证线程安全的"><a href="#1、concurrentHashMap是如何保证线程安全的" class="headerlink" title="1、concurrentHashMap是如何保证线程安全的"></a>1、concurrentHashMap是如何保证线程安全的</h5><p>数组用volatile修饰主要是保证在数组扩容的时候保证可见性，使用CAS和Synchronized保证并发安全性。同时采用锁升级的优化方式，优先使用偏向锁优先同一线程然后再次获取锁，如果失败就升级为CAS轻量级锁，如果失败就自选，防止线程被系统挂起，最后如果以上都失败就升级为重量级锁，以此保证其高效率。</p>
+<h5 id="2、ConcurrentHashMap不支持key或value为空的原因"><a href="#2、ConcurrentHashMap不支持key或value为空的原因" class="headerlink" title="2、ConcurrentHashMap不支持key或value为空的原因"></a>2、ConcurrentHashMap不支持key或value为空的原因</h5><p>concurrentHashMap可以保证线程安全，如果ConcurrentHashMap中的value为null，就无法判断value为空，还是没有对应的key。</p>
+<h5 id="3、ConcurrentHashMap的效率问题"><a href="#3、ConcurrentHashMap的效率问题" class="headerlink" title="3、ConcurrentHashMap的效率问题"></a>3、ConcurrentHashMap的效率问题</h5><p>在线程安全的几个map实现类中，concurrentHashMap的效率是最高的，因为在它的内部的锁粒度更低，采用CAS和Synchronized实现线程安全的。HashTable则是直接使用Synchronized在数组上加锁保证线程安全的。</p>
+<h3 id="4、HashTable"><a href="#4、HashTable" class="headerlink" title="4、HashTable"></a>4、HashTable</h3><p>HashTab的底层数据结构也是由数组和链表实现的,对象在创建时就会初始化，数组的初始长度是11，负载因子时0.75f，当HashTable中元素的个数超出（数组长度 * 负载因子）时，开始扩容，新HashTable的数组的长度时原数组长度的（2倍+1）。在HashTable中链表不会进行树化。</p>
+<h4 id="4-1-HashTable原理"><a href="#4-1-HashTable原理" class="headerlink" title="4.1 HashTable原理"></a>4.1 HashTable原理</h4><p>HashTable的数据结构是数组加链表，HashTable在多线程环境下可以保证线程安全，因为HashTable在其每一个方法都是用了Synchronized的修饰的。HashTable在进行put数据时，value不允许为空。也是先通过可以key计算（hash(key) % 数组的长度）出在数组中的位置。然后比较是够存在相同的key值，存在则覆盖并返回旧值，不存在则新增。如果在put期间出现hash冲突，就会以链表的方式插入到链表的末尾。</p>
+<h4 id="4-2-扩容机制"><a href="#4-2-扩容机制" class="headerlink" title="4.2 扩容机制"></a>4.2 扩容机制</h4><p>HashTable的扩容的时机是在元素put之后，在元素put进hashTable后，就会检查当前hashtable中元素的数量是否大于（当前数组长度 * 负载因子），如果大于则进行扩容。扩容时会先创建一个新数组，长度时原数组长度的2倍加1，并将遍历原数组中的元素重新hash到新HashTable中，然后把新数组赋值给数组容器。</p>
+<h4 id="4-3-补充说明"><a href="#4-3-补充说明" class="headerlink" title="4.3 补充说明"></a>4.3 补充说明</h4><h5 id="1、HashTable效率较低的原因"><a href="#1、HashTable效率较低的原因" class="headerlink" title="1、HashTable效率较低的原因"></a>1、HashTable效率较低的原因</h5><p>在HashTable中的方法使用了Synchronized关键字修饰，给每一个方法进行加锁，导致HashTable的效率较低。</p>
+<h3 id="5、TreeMap"><a href="#5、TreeMap" class="headerlink" title="5、TreeMap"></a>5、TreeMap</h3><p>TreeMap是SortedMap接口的实现类，其底层使用的数据结构为<strong>红黑树</strong>，key-value作为一个红黑树的节点，在进行数据存储是会进行根据key排序，排序的规则为自然排序和自定义排序。而HashMap和HashTable是无序的。</p>
+<h3 id="6、比较"><a href="#6、比较" class="headerlink" title="6、比较"></a>6、比较</h3><h4 id="6-1、HashTable-和-HashMap的比较"><a href="#6-1、HashTable-和-HashMap的比较" class="headerlink" title="6.1、HashTable 和 HashMap的比较"></a>6.1、HashTable 和 HashMap的比较</h4><p>​    HashTable和HashMap都属于Map的子类，区别在于：</p>
 <ul>
 <li>HashTable不允许键或值为null，HashMap的键或值都可以为null。</li>
 <li>实现方式不同，HashTable继承了DicTionary类，HashMap继承AbstractMap类；</li>
@@ -378,8 +396,7 @@
 <li>扩容机制不同：现有数量 &gt; 总容量 X 负载因子时，HashMap扩容规则为当前容量翻倍，HashTable扩容规则为当前容量翻倍+1；</li>
 <li>迭代器不同：HashMap中的Iterator迭代器是fail-fast的，HashTable的Enumerator不是fail-fast的。</li>
 </ul>
-<h5 id="1-4-2-TreeMap"><a href="#1-4-2-TreeMap" class="headerlink" title="1.4.2 TreeMap"></a>1.4.2 TreeMap</h5><p>​    TreeMap是SortedMap接口的实现类，其底层使用的数据结构为<strong>红黑树</strong>，key-value作为一个红黑树的节点，在进行数据存储是会进行根据key排序，排序的规则为自然排序和自定义排序。而HashMap和HashTable是无序的。</p>
-<h4 id="1-5-Map常用方法"><a href="#1-5-Map常用方法" class="headerlink" title="1.5 Map常用方法"></a>1.5 Map常用方法</h4><ul>
+<h4 id="6-2-Map常用方法"><a href="#6-2-Map常用方法" class="headerlink" title="6.2 Map常用方法"></a>6.2 Map常用方法</h4><ul>
 <li><p><code>int size();</code>：返回Map的key-value对的长度。</p>
 </li>
 <li><p><code>boolean isEmpty();</code>：判断该Map是否为空。</p>
@@ -599,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-Map存储过程"><span class="nav-text">1.1  Map存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Map扩容机制"><span class="nav-text">1.2 Map扩容机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-线程安全的Map"><span class="nav-text">1.3 线程安全的Map</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-1-Collections-synchronizedMap"><span class="nav-text">1.3.1 Collections.synchronizedMap()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-2-ConcurrentHashMap"><span class="nav-text">1.3.2 ConcurrentHashMap</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-Map其他子类介绍"><span class="nav-text">1.4 Map其他子类介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-1-HashTable"><span class="nav-text">1.4.1 HashTable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-2-TreeMap"><span class="nav-text">1.4.2 TreeMap</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-Map常用方法"><span class="nav-text">1.5 Map常用方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Map的实现类如下图所示："><span class="nav-text">1、Map的实现类如下图所示：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、HashMap说明"><span class="nav-text">2、HashMap说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-HashMap原理"><span class="nav-text">2.1 HashMap原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-HashMap的扩容机制"><span class="nav-text">2.2 HashMap的扩容机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-补充说明"><span class="nav-text">2.3 补充说明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、数组使用2倍扩容的原因"><span class="nav-text">1、数组使用2倍扩容的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、在数组长度超出64的条件下，链表长度超出8开始树化的原因"><span class="nav-text">2、在数组长度超出64的条件下，链表长度超出8开始树化的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、HashMap线程不安全的原因"><span class="nav-text">3、HashMap线程不安全的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、HashMap的Key为null"><span class="nav-text">4、HashMap的Key为null</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、通过key获取元素是如何进行的"><span class="nav-text">5、通过key获取元素是如何进行的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、多线程环境下使用"><span class="nav-text">6、多线程环境下使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、ConcurrentHashMap"><span class="nav-text">3、ConcurrentHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-ConcurrentHashMap原理"><span class="nav-text">3.1 ConcurrentHashMap原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-ConcurrentHashMap的get方法的过程"><span class="nav-text">3.2 ConcurrentHashMap的get方法的过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-扩容过程"><span class="nav-text">3.3 扩容过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-补充说明"><span class="nav-text">3.4 补充说明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、concurrentHashMap是如何保证线程安全的"><span class="nav-text">1、concurrentHashMap是如何保证线程安全的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、ConcurrentHashMap不支持key或value为空的原因"><span class="nav-text">2、ConcurrentHashMap不支持key或value为空的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、ConcurrentHashMap的效率问题"><span class="nav-text">3、ConcurrentHashMap的效率问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、HashTable"><span class="nav-text">4、HashTable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-HashTable原理"><span class="nav-text">4.1 HashTable原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-扩容机制"><span class="nav-text">4.2 扩容机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-补充说明"><span class="nav-text">4.3 补充说明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、HashTable效率较低的原因"><span class="nav-text">1、HashTable效率较低的原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、TreeMap"><span class="nav-text">5、TreeMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、比较"><span class="nav-text">6、比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1、HashTable-和-HashMap的比较"><span class="nav-text">6.1、HashTable 和 HashMap的比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Map常用方法"><span class="nav-text">6.2 Map常用方法</span></a></li></ol></li></ol></div>
             
 
           </div>

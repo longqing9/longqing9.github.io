@@ -504,7 +504,11 @@
       
         
           
-          1.1  Map存储过程在Map中是采用key-value键值对的形式进行存储数据的、底层数据结构是由数组＋链表构成的，在多线程环环境下存在线程并发问题。HashMap数组的长度默认为16，加载因子默认为0.75f，当进行put数据时，会对key进行hash计算，获取到该key在数组中存在的位置，当
+          1、Map的实现类如下图所示：
+2、HashMap说明2.1 HashMap原理HashMap的结构如下：
+
+HashMap中是采用key-value键值对的形式进行存储数据的，底层数据结构是由数组＋链表构成的。在JDK7中叫Entry，在JDK8中叫Node。
+HashMap对象创建时，初始化长度
           ...
           <!--noindex-->
           <div class="post-button text-center">

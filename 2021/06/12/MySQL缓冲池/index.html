@@ -40,7 +40,7 @@
 
   
   
-  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,21 +48,21 @@
 
 
 
-<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
 
 
-  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
 
 
 
@@ -82,12 +82,12 @@
 <meta name="description" content="1、InnoDB的缓冲池1.1 基本介绍InnoDB存储引擎是基于磁盘存储的，并将其中的记录按照页方式进行管理，在数据库系统中，由于CPU速度和磁盘速度的差距，基于磁盘的数据库系统通常采用缓冲池技术来提高数据库的整体性能。 缓冲池就是一块内存区域，通过内存的速度来弥补磁盘速度较慢对数据库性能的影响，在数据库中进行读取页的操作，首先将磁盘中读取到的数据页存放在缓冲池中，下次再读取相同页的时候，先查询">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL缓冲池">
-<meta property="og:url" content="https://longqing9.gitee.io/blog/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/index.html">
 <meta property="og:site_name" content="龍">
 <meta property="og:description" content="1、InnoDB的缓冲池1.1 基本介绍InnoDB存储引擎是基于磁盘存储的，并将其中的记录按照页方式进行管理，在数据库系统中，由于CPU速度和磁盘速度的差距，基于磁盘的数据库系统通常采用缓冲池技术来提高数据库的整体性能。 缓冲池就是一块内存区域，通过内存的速度来弥补磁盘速度较慢对数据库性能的影响，在数据库中进行读取页的操作，首先将磁盘中读取到的数据页存放在缓冲池中，下次再读取相同页的时候，先查询">
 <meta property="article:published_time" content="2021-06-12T03:57:28.000Z">
 <meta property="article:modified_time" content="2021-06-13T06:09:24.171Z">
-<meta property="article:author" content="Liu Hualong">
+<meta property="article:author" content="Liuhualong">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="缓存">
 <meta name="twitter:card" content="summary">
@@ -97,7 +97,7 @@
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/blog/',
+    root: '/',
     scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://longqing9.gitee.io/blog/2021/06/12/MySQL缓冲池/"/>
+  <link rel="canonical" href="http://yoursite.com/2021/06/12/MySQL缓冲池/"/>
 
 
 
@@ -154,7 +154,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/blog/"  class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">龍</span>
         <span class="logo-line-after"><i></i></span>
@@ -182,7 +182,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/blog/" rel="section">
+          <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
@@ -192,7 +192,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/blog/tags/" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
@@ -202,7 +202,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/blog/categories/" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
@@ -212,7 +212,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/blog/archives/" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
@@ -222,7 +222,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/blog/about/" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
@@ -263,12 +263,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://longqing9.gitee.io/blog/blog/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/12/MySQL%E7%BC%93%E5%86%B2%E6%B1%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Liu Hualong">
+      <meta itemprop="name" content="Liuhualong">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/blog/images/avatar.jpeg">
+      <meta itemprop="image" content="/images/avatar.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -315,7 +315,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/MySQL/" itemprop="url" rel="index">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
                     <span itemprop="name">MySQL</span>
                   </a>
                 </span>
@@ -417,9 +417,9 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
-            <a href="/blog/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
+            <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
           
         </div>
       
@@ -432,7 +432,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2021/06/11/MySQL%E7%9A%84%E7%B4%A2%E5%BC%95/" rel="next" title="MySQL的索引">
+              <a href="/2021/06/11/MySQL%E7%9A%84%E7%B4%A2%E5%BC%95/" rel="next" title="MySQL的索引">
                 <i class="fa fa-chevron-left"></i> MySQL的索引
               </a>
             
@@ -442,7 +442,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2021/06/13/MySQL%E7%9A%84%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84%E5%8F%8A%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="prev" title="MySQL的逻辑架构及索引优化">
+              <a href="/2021/06/13/MySQL%E7%9A%84%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84%E5%8F%8A%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" rel="prev" title="MySQL的逻辑架构及索引优化">
                 MySQL的逻辑架构及索引优化 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -511,11 +511,11 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image"
-                src="/blog/images/avatar.jpeg"
-                alt="Liu Hualong" />
+                src="/images/avatar.jpeg"
+                alt="Liuhualong" />
             
-              <p class="site-author-name" itemprop="name">Liu Hualong</p>
-              <p class="site-description motion-element" itemprop="description">究天人之际，通古今之变，成一家之言</p>
+              <p class="site-author-name" itemprop="name">Liuhualong</p>
+              <p class="site-description motion-element" itemprop="description">乾坤未定，你我皆是黑马</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -523,7 +523,7 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/blog/archives/">
+                <a href="/archives/">
               
                   <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
@@ -535,7 +535,7 @@
               
               
               <div class="site-state-item site-state-categories">
-                <a href="/blog/categories/index.html">
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
@@ -546,7 +546,7 @@
               
               
               <div class="site-state-item site-state-tags">
-                <a href="/blog/tags/index.html">
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
@@ -627,7 +627,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Liu Hualong</span>
+  <span class="author" itemprop="copyrightHolder">Liuhualong</span>
 
   
 </div>
@@ -695,64 +695,64 @@
 
   
   
-    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
   
-    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
   
 
   
   
-    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
   
 
   
   
-    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
   
   
-    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
   
   
-    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
-
-
-  
-
-
-  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
-
 
 
   
 
 
-  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
